@@ -14,6 +14,11 @@ fontt = Font(
     size=10,
     # weight='bold'
 )
+font1 = Font(
+    family='Poppins',
+    size=14,
+    # weight='bold'
+)
 
 conn = sqlite3.connect('database.db')
 
@@ -35,6 +40,87 @@ c = conn.cursor()
 
 
 #)''')
+
+
+
+def search_it():
+    conn = sqlite3.connect('database.db')
+
+    c = conn.cursor()
+
+    c.execute("SELECT * FROM second WHERE oid=" + Ent1.get())
+
+    records = c.fetchall()
+
+    for record in records:
+        Label(myframe, text=Ent1.get(), bg='blue', width=10).grid(row=1, column=0)
+        Label(myframe, text=record[0], bg='blue', width=30).grid(row=1, column=1)
+        Label(myframe, text=record[1], bg='blue', width=13).grid(row=1, column=2)
+        Label(myframe, text=record[2], bg='blue', width=10).grid(row=1, column=3)
+        Label(myframe, text=record[3], bg='blue', width=10).grid(row=1, column=4)
+        Label(myframe, text=record[8], bg='blue', width=10).grid(row=1, column=5)
+        Label(myframe, text=record[9], bg='blue', width=10).grid(row=1, column=6)
+
+
+
+
+
+
+
+
+    conn.commit()
+
+
+    conn.close()
+
+
+
+
+
+def deletee():
+    conn = sqlite3.connect('database.db')
+
+    c = conn.cursor()
+
+
+
+    c.execute('DELETE FROM second WHERE oid=' + Ent1.get())
+
+    c.execute("SELECT *,oid FROM second")
+
+    records = c.fetchall()
+
+
+    number = Ent1.get()
+    roww = 1
+    for record in records:
+            Label(myframe, text=record[10], bg='white', width=10).grid(row=roww, column=0)
+            Label(myframe, text=record[0], bg='white', width=30).grid(row=roww, column=1)
+            Label(myframe, text=record[1], bg='white', width=13).grid(row=roww, column=2)
+            Label(myframe, text=record[2], bg='white', width=10).grid(row=roww, column=3)
+            Label(myframe, text=record[3], bg='white', width=10).grid(row=roww, column=4)
+            Label(myframe, text=record[8], bg='white', width=10).grid(row=roww, column=5)
+            Label(myframe, text=record[9], bg='white', width=10).grid(row=roww, column=6)
+            roww+=1
+
+    Label(myframe, text='', bg='white', width=10).grid(row=roww, column=0)
+    Label(myframe, text='', bg='white', width=10).grid(row=roww, column=1)
+    Label(myframe, text='', bg='white', width=10).grid(row=roww, column=2)
+    Label(myframe, text='', bg='white', width=10).grid(row=roww, column=3)
+    Label(myframe, text='', bg='white', width=10).grid(row=roww, column=4)
+    Label(myframe, text='', bg='white', width=10).grid(row=roww, column=5)
+    Label(myframe, text='', bg='white', width=10).grid(row=roww, column=6)
+
+
+
+
+
+    Ent1.delete(0, END)
+
+    conn.commit()
+
+    conn.close()
+
 
 
 def inven_update():
@@ -92,9 +178,9 @@ def inven_update():
 
         records = c.fetchall()
         # print(records)
-
+        roww = 1
         for record in records:
-            roww = record[10]
+
             Label(myframe, text=record[10], bg='white', width=10).grid(row=roww, column=0)
             Label(myframe, text=record[0], bg='white', width=30).grid(row=roww, column=1)
             Label(myframe, text=record[1], bg='white', width=13).grid(row=roww, column=2)
@@ -102,7 +188,7 @@ def inven_update():
             Label(myframe, text=record[3], bg='white', width=10).grid(row=roww, column=4)
             Label(myframe, text=record[8], bg='white', width=10).grid(row=roww, column=5)
             Label(myframe, text=record[9], bg='white', width=10).grid(row=roww, column=6)
-
+            roww +=1
 
         conn.commit()
 
@@ -120,13 +206,13 @@ def inven_update():
     btn2 = Button(inven, text='Clear', bg='#007884', height=1, width=10, activebackground='#007884', font=fontt, bd=0,
                   command=clear_all).place(x=602, y=534)
 
-    lab1 = Label(inven, text='Product Name', bd=0, bg='white', font=fontt).place(x=145, y=188)
-    lab2 = Label(inven, text='Category', bd=0, bg='white', font=fontt).place(x=145, y=265)
-    lab3 = Label(inven, text='Quantity', bd=0, bg='white', font=fontt).place(x=145, y=336)
-    lab4 = Label(inven, text='Selling Price(MRP)', bd=0, bg='white', font=fontt).place(x=145, y=400)
-    lab5 = Label(inven, text='Sub Category', bd=0, bg='white', font=fontt).place(x=620, y=265)
-    lab6 = Label(inven, text='Cost Price', bd=0, bg='white', font=fontt).place(x=620, y=336)
-    lab7 = Label(inven, text='Vendor Phone No.', bd=0, bg='white', font=fontt).place(x=620, y=400)
+    lab1 = Label(inven, text='Product Name', bd=0, bg='white', font=font1).place(x=145, y=188)
+    lab2 = Label(inven, text='Category', bd=0, bg='white', font=font1).place(x=145, y=265)
+    lab3 = Label(inven, text='Quantity', bd=0, bg='white', font=font1).place(x=145, y=336)
+    lab4 = Label(inven, text='Selling Price(MRP)', bd=0, bg='white', font=font1).place(x=145, y=400)
+    lab5 = Label(inven, text='Sub Category', bd=0, bg='white', font=font1).place(x=620, y=265)
+    lab6 = Label(inven, text='Cost Price', bd=0, bg='white', font=font1).place(x=620, y=336)
+    lab7 = Label(inven, text='Vendor Phone No.', bd=0, bg='white', font=font1).place(x=620, y=400)
 
     # Entries for update product
 
@@ -215,9 +301,9 @@ def inven_add():
 
         records = c.fetchall()
         # print(records)
-
+        roww = 1
         for record in records:
-            roww = record[10]
+
             Label(myframe, text=record[10], bg='white', width=10).grid(row=roww, column=0)
             Label(myframe, text=record[0], bg='white', width=30).grid(row=roww, column=1)
             Label(myframe, text=record[1], bg='white', width=13).grid(row=roww, column=2)
@@ -225,6 +311,7 @@ def inven_add():
             Label(myframe, text=record[3], bg='white', width=10).grid(row=roww, column=4)
             Label(myframe, text=record[8], bg='white', width=10).grid(row=roww, column=5)
             Label(myframe, text=record[9], bg='white', width=10).grid(row=roww, column=6)
+            roww +=1
 
         conn.commit()
 
@@ -239,13 +326,13 @@ def inven_add():
     btn2a = Button(inven, text='Clear', bg='#007884', height=1, width=10, activebackground='#007884', font=fontt,
                    bd=0, command=clear_all).place(x=602, y=534)
 
-    lab1a = Label(inven, text='Product Name', bd=0, bg='white', font=fontt).place(x=145, y=188)
-    lab2a = Label(inven, text='Category', bd=0, bg='white', font=fontt).place(x=145, y=265)
-    lab3a = Label(inven, text='Quantity', bd=0, bg='white', font=fontt).place(x=145, y=336)
-    lab4a = Label(inven, text='Selling Price(MRP)', bd=0, bg='white', font=fontt).place(x=145, y=400)
-    lab5a = Label(inven, text='Sub Category', bd=0, bg='white', font=fontt).place(x=620, y=265)
-    lab6a = Label(inven, text='Cost Price', bd=0, bg='white', font=fontt).place(x=620, y=336)
-    lab7a = Label(inven, text='Vendor Phone No.', bd=0, bg='white', font=fontt).place(x=620, y=400)
+    lab1a = Label(inven, text='Product Name', bd=0, bg='white', font=font1).place(x=145, y=188)
+    lab2a = Label(inven, text='Category', bd=0, bg='white', font=font1).place(x=145, y=265)
+    lab3a = Label(inven, text='Quantity', bd=0, bg='white', font=font1).place(x=145, y=336)
+    lab4a = Label(inven, text='Selling Price(MRP)', bd=0, bg='white', font=font1).place(x=145, y=400)
+    lab5a = Label(inven, text='Sub Category', bd=0, bg='white', font=font1).place(x=620, y=265)
+    lab6a = Label(inven, text='Cost Price', bd=0, bg='white', font=font1).place(x=620, y=336)
+    lab7a = Label(inven, text='Vendor Phone No.', bd=0, bg='white', font=font1).place(x=620, y=400)
 
     # Entries for update product
 
@@ -274,22 +361,22 @@ lab1.place(x=70, y=155)
 Ent1 = Entry(root, bd=0, bg='white', fg='black', font=fontt)
 Ent1.place(x=70, y=210)
 
-btn1 = Button(root, text='Logout', height=1, width=7, bg='#007884', activebackground='#007884', font=fontt, bd=0,
+btn1 = Button(root, text='Logout', height=1, width=7, bg='#007884', activebackground='#007884', font=fontt, bd=0,cursor='hand2',
               fg='white').place(x=65, y=96)
 
-btn2 = Button(root, text='Search', height=1, width=9, bg='#007884', activebackground='#007884', font=fontt, bd=0).place(
+btn2 = Button(root, text='Search', height=1, width=9, bg='#007884', activebackground='#007884', font=fontt,fg='white' ,cursor='hand2',bd=0, command=search_it).place(
     x=262, y=215)
 
-btn3 = Button(root, text='Add Product', height=1, width=26, bg='#007884', activebackground='#007884', font=fontt, bd=0,
+btn3 = Button(root, text='Add Product', height=1, width=26, bg='#007884', activebackground='#007884',fg='white' , font=fontt,cursor='hand2', bd=0,
               command=inven_add).place(x=76, y=316)
 
-btn4 = Button(root, text='Update Product', height=1, width=26, bg='#007884', activebackground='#007884',
+btn4 = Button(root, text='Update Product', height=1, width=26, bg='#007884', activebackground='#007884',fg='white' ,cursor='hand2',
               command=inven_update, font=fontt, bd=0).place(x=76, y=392)
 
-btn5 = Button(root, text='Delete Product', height=1, width=26, bg='#007884', activebackground='#007884', font=fontt,
-              bd=0).place(x=76, y=469)
+btn5 = Button(root, text='Delete Product', height=1, width=26, bg='#007884', activebackground='#007884', font=fontt,fg='white' ,cursor='hand2',
+              bd=0, command=deletee).place(x=76, y=469)
 
-btn6 = Button(root, text='Exit', height=1, width=7, bg='#007884', activebackground='#007884', font=fontt, bd=0).place(
+btn6 = Button(root, text='Exit', height=1, width=7, bg='#007884', activebackground='#007884', font=fontt, bd=0,cursor='hand2',fg='white' ).place(
     x=148, y=560)
 
 wrapper1 = LabelFrame(root, height=800, width=1000, bd=0)
@@ -326,10 +413,10 @@ c.execute("SELECT *,oid FROM second")
 
 records = c.fetchall()
 # print(records)
-
+roww = 1
 
 for record in records:
-    roww = record[10]
+
     Label(myframe, text=record[10], bg='white', width=10).grid(row=roww, column=0)
     Label(myframe, text=record[0], bg='white', width=30).grid(row=roww, column=1)
     Label(myframe, text=record[1], bg='white', width=13).grid(row=roww, column=2)
@@ -337,7 +424,7 @@ for record in records:
     Label(myframe, text=record[3], bg='white', width=10).grid(row=roww, column=4)
     Label(myframe, text=record[8], bg='white', width=10).grid(row=roww, column=5)
     Label(myframe, text=record[9], bg='white', width=10).grid(row=roww, column=6)
-
+    roww +=1
 conn.commit()
 
 conn.close()
