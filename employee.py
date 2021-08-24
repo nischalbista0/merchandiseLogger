@@ -11,7 +11,7 @@ root.resizable(False, False)
 # Create a databases or connect to one
 conn = sqlite3.connect("database_employee.db")
 
-# Create cursor
+#Create cursor
 c = conn.cursor()
 
 # query of the database
