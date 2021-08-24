@@ -12,7 +12,7 @@ window.resizable(0, 0)
 
 
 # Background Image
-bg = ImageTk.PhotoImage(file="Images/employeeWindow.png")
+bg = ImageTk.PhotoImage(file="employeeWindow.png")
 bg_image = Label(window, image=bg).place(x=0, y=0)
 
 
@@ -106,9 +106,12 @@ def clear_bill():
     contactNum.delete(0, END)
 
 
+
 bill_list = [[[], []]]
 roww = 0
 index_increment = 0
+
+
 # Function that adds product to the bill
 def addToCart():
     global roww
@@ -155,9 +158,10 @@ def addToCart():
             roww += 1
 
 
-
 # Function that removes product from the bill
 def remove():
+    global roww
+    global index_increment
     global rowww
     global index_increment_copy
     global i
@@ -209,8 +213,8 @@ def remove():
         index_increment_copy += 1
         rowww += 1
 
-
-
+    roww -= 1
+    index_increment -= 1
 
 
 # Function that generates bill and store bill data in database
@@ -329,6 +333,7 @@ myFrame = Frame(myCanvas)
 myCanvas.create_window((0, 0), window=myFrame, anchor='nw')
 
 wrapper1.place(x=532, y=320)
+
 
 conn.commit()
 conn.close()
