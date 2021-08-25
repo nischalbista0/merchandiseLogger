@@ -2,6 +2,7 @@ from tkinter import *
 from PIL import ImageTk, Image
 from tkinter.font import Font
 from tkinter import ttk
+from tkinter import messagebox
 import sqlite3
 
 root = Tk()
@@ -44,210 +45,225 @@ c = conn.cursor()
 
 
 def search_it():
-    conn = sqlite3.connect('database.db')
+    if Ent1.get() !='':
+        conn = sqlite3.connect('database.db')
 
-    c = conn.cursor()
+        c = conn.cursor()
 
-    c.execute("SELECT * FROM second WHERE oid=" + Ent1.get())
+        c.execute("SELECT * FROM second WHERE oid=" + Ent1.get())
 
-    records = c.fetchall()
+        records = c.fetchall()
 
-    for record in records:
-        Label(myframe, text=Ent1.get(), bg='blue', width=10).grid(row=1, column=0)
-        Label(myframe, text=record[0], bg='blue', width=30).grid(row=1, column=1)
-        Label(myframe, text=record[1], bg='blue', width=13).grid(row=1, column=2)
-        Label(myframe, text=record[2], bg='blue', width=10).grid(row=1, column=3)
-        Label(myframe, text=record[3], bg='blue', width=10).grid(row=1, column=4)
-        Label(myframe, text=record[8], bg='blue', width=10).grid(row=1, column=5)
-        Label(myframe, text=record[9], bg='blue', width=10).grid(row=1, column=6)
-
-
-
+        for record in records:
+            Label(myframe, text=Ent1.get(), bg='blue', width=10).grid(row=1, column=0)
+            Label(myframe, text=record[0], bg='blue', width=30).grid(row=1, column=1)
+            Label(myframe, text=record[1], bg='blue', width=13).grid(row=1, column=2)
+            Label(myframe, text=record[2], bg='blue', width=10).grid(row=1, column=3)
+            Label(myframe, text=record[3], bg='blue', width=10).grid(row=1, column=4)
+            Label(myframe, text=record[8], bg='blue', width=10).grid(row=1, column=5)
+            Label(myframe, text=record[9], bg='blue', width=10).grid(row=1, column=6)
 
 
 
 
 
-    conn.commit()
 
 
-    conn.close()
+
+        conn.commit()
+
+
+        conn.close()
+    else:
+        messagebox.showwarning('Empty Field', 'Please enter in the search field')
 
 
 
 
 
 def deletee():
-    conn = sqlite3.connect('database.db')
-
-    c = conn.cursor()
-
-
-
-    c.execute('DELETE FROM second WHERE oid=' + Ent1.get())
-
-    c.execute("SELECT *,oid FROM second")
-
-    records = c.fetchall()
-
-
-    number = Ent1.get()
-    roww = 1
-    for record in records:
-            Label(myframe, text=record[10], bg='white', width=10).grid(row=roww, column=0)
-            Label(myframe, text=record[0], bg='white', width=30).grid(row=roww, column=1)
-            Label(myframe, text=record[1], bg='white', width=13).grid(row=roww, column=2)
-            Label(myframe, text=record[2], bg='white', width=10).grid(row=roww, column=3)
-            Label(myframe, text=record[3], bg='white', width=10).grid(row=roww, column=4)
-            Label(myframe, text=record[8], bg='white', width=10).grid(row=roww, column=5)
-            Label(myframe, text=record[9], bg='white', width=10).grid(row=roww, column=6)
-            roww+=1
-
-    Label(myframe, text='', bg='white', width=10).grid(row=roww, column=0)
-    Label(myframe, text='', bg='white', width=10).grid(row=roww, column=1)
-    Label(myframe, text='', bg='white', width=10).grid(row=roww, column=2)
-    Label(myframe, text='', bg='white', width=10).grid(row=roww, column=3)
-    Label(myframe, text='', bg='white', width=10).grid(row=roww, column=4)
-    Label(myframe, text='', bg='white', width=10).grid(row=roww, column=5)
-    Label(myframe, text='', bg='white', width=10).grid(row=roww, column=6)
-
-
-
-
-
-    Ent1.delete(0, END)
-
-    conn.commit()
-
-    conn.close()
-
-
-
-def inven_update():
-    global imgg
-    inven = Toplevel()
-    inven.geometry('1193x671')
-    inven.resizable(False, False)
-
-    def clear_all():
-        ls = [en1, en2, en3, en4, en5, en6, en7]
-
-        for i in ls:
-            i.delete(0, END)
-
-    def upd_product():
+    if Ent1.get() != '':
         conn = sqlite3.connect('database.db')
 
         c = conn.cursor()
 
-        ddata = Ent1.get()
 
-        c.execute('''UPDATE second SET
 
-        product = :pd,
-        category = :cate,
-        sub_category= :s_cate,
-        In_stock = :stock,
-        customer_name= :c_n,
-        contact_number= :c_num,
-        bill_number= :bill,
-        selling_price = :s_p,
-        cost_price = :c_p,
-        vendor_no = :vendor
-
-        WHERE oid = :oid
-        ''', {
-
-            'pd': en1.get(),
-            'cate': en2.get(),
-            's_cate': en5.get(),
-            'stock': en3.get(),
-            'c_n': '',
-            'c_num': '',
-            'bill': '',
-            's_p': en4.get(),
-            'c_p': en6.get(),
-            'vendor': en7.get(),
-            'oid' : ddata
-
-        })
-
-        inven.destroy()
+        c.execute('DELETE FROM second WHERE oid=' + Ent1.get())
 
         c.execute("SELECT *,oid FROM second")
 
         records = c.fetchall()
-        # print(records)
+
+
+        number = Ent1.get()
         roww = 1
         for record in records:
+                Label(myframe, text=record[10], bg='white', width=10).grid(row=roww, column=0)
+                Label(myframe, text=record[0], bg='white', width=30).grid(row=roww, column=1)
+                Label(myframe, text=record[1], bg='white', width=13).grid(row=roww, column=2)
+                Label(myframe, text=record[2], bg='white', width=10).grid(row=roww, column=3)
+                Label(myframe, text=record[3], bg='white', width=10).grid(row=roww, column=4)
+                Label(myframe, text=record[8], bg='white', width=10).grid(row=roww, column=5)
+                Label(myframe, text=record[9], bg='white', width=10).grid(row=roww, column=6)
+                roww+=1
 
-            Label(myframe, text=record[10], bg='white', width=10).grid(row=roww, column=0)
-            Label(myframe, text=record[0], bg='white', width=30).grid(row=roww, column=1)
-            Label(myframe, text=record[1], bg='white', width=13).grid(row=roww, column=2)
-            Label(myframe, text=record[2], bg='white', width=10).grid(row=roww, column=3)
-            Label(myframe, text=record[3], bg='white', width=10).grid(row=roww, column=4)
-            Label(myframe, text=record[8], bg='white', width=10).grid(row=roww, column=5)
-            Label(myframe, text=record[9], bg='white', width=10).grid(row=roww, column=6)
-            roww +=1
+        Label(myframe, text='', bg='white', width=10).grid(row=roww, column=0)
+        Label(myframe, text='', bg='white', width=10).grid(row=roww, column=1)
+        Label(myframe, text='', bg='white', width=10).grid(row=roww, column=2)
+        Label(myframe, text='', bg='white', width=10).grid(row=roww, column=3)
+        Label(myframe, text='', bg='white', width=10).grid(row=roww, column=4)
+        Label(myframe, text='', bg='white', width=10).grid(row=roww, column=5)
+        Label(myframe, text='', bg='white', width=10).grid(row=roww, column=6)
+
+
+
+
+
+        Ent1.delete(0, END)
 
         conn.commit()
 
         conn.close()
+    else:
+        messagebox.showwarning('Empty field', 'Please Enter the number in the field')
 
-    conn = sqlite3.connect('database.db')
 
-    c = conn.cursor()
 
-    imgg = ImageTk.PhotoImage(Image.open('C:/Users/dell/Desktop/illustrato/Update_Product.png'))
-    lablo = Label(inven, image=imgg).place(x=0, y=0)
-    btn1 = Button(inven, text='Update', bg='#007884', height=1, width=10, activebackground='#007884',
-                  command=upd_product, font=fontt, bd=0).place(x=478, y=534)
+def inven_update():
+    if Ent1.get() != '':
 
-    btn2 = Button(inven, text='Clear', bg='#007884', height=1, width=10, activebackground='#007884', font=fontt, bd=0,
-                  command=clear_all).place(x=602, y=534)
+        global imgg
+        inven = Toplevel()
+        inven.geometry('1193x671')
+        inven.resizable(False, False)
 
-    lab1 = Label(inven, text='Product Name', bd=0, bg='white', font=font1).place(x=145, y=188)
-    lab2 = Label(inven, text='Category', bd=0, bg='white', font=font1).place(x=145, y=265)
-    lab3 = Label(inven, text='Quantity', bd=0, bg='white', font=font1).place(x=145, y=336)
-    lab4 = Label(inven, text='Selling Price(MRP)', bd=0, bg='white', font=font1).place(x=145, y=400)
-    lab5 = Label(inven, text='Sub Category', bd=0, bg='white', font=font1).place(x=620, y=265)
-    lab6 = Label(inven, text='Cost Price', bd=0, bg='white', font=font1).place(x=620, y=336)
-    lab7 = Label(inven, text='Vendor Phone No.', bd=0, bg='white', font=font1).place(x=620, y=400)
+        def clear_all():
+            ls = [en1, en2, en3, en4, en5, en6, en7]
 
-    # Entries for update product
+            for i in ls:
+                i.delete(0, END)
 
-    en1 = Entry(inven, bd=0, bg='white', fg='black', font=fontt)
-    en1.place(x=145, y=217)
-    en2 = Entry(inven, bd=0, bg='white', fg='black', font=fontt)
-    en2.place(x=145, y=292)
-    en3 = Entry(inven, bd=0, bg='white', fg='black', font=fontt)
-    en3.place(x=145, y=363)
-    en4 = Entry(inven, bd=0, bg='white', fg='black', font=fontt)
-    en4.place(x=145, y=426)
-    en5 = Entry(inven, bd=0, bg='white', fg='black', font=fontt)
-    en5.place(x=620, y=292)
-    en6 = Entry(inven, bd=0, bg='white', fg='black', font=fontt)
-    en6.place(x=620, y=363)
-    en7 = Entry(inven, bd=0, bg='white', fg='black', font=fontt)
-    en7.place(x=620, y=426)
-    global ddata
-    ddata = Ent1.get()
+        def upd_product():
 
-    c.execute("SELECT * FROM second WHERE oid=" + ddata)
-    records = c.fetchall()
+            if en1.get() != '' and en2.get() != '' and en3.get() != '' and en4.get() != '' and en5.get() != '' and en6.get() != '' and en7.get() != '':
 
-    for record in records:
-        en1.insert(0, record[0])
-        en2.insert(0, record[1])
-        en3.insert(0, record[3])
-        en4.insert(0, record[7])
-        en5.insert(0, record[2])
-        en6.insert(0, record[8])
-        en7.insert(0, record[9])
+                conn = sqlite3.connect('database.db')
 
-    conn.commit()
+                c = conn.cursor()
 
-    conn.close()
+                ddata = Ent1.get()
+
+                c.execute('''UPDATE second SET
+
+                product = :pd,
+                category = :cate,
+                sub_category= :s_cate,
+                In_stock = :stock,
+                customer_name= :c_n,
+                contact_number= :c_num,
+                bill_number= :bill,
+                selling_price = :s_p,
+                cost_price = :c_p,
+                vendor_no = :vendor
+
+                WHERE oid = :oid
+                ''', {
+
+                    'pd': en1.get(),
+                    'cate': en2.get(),
+                    's_cate': en5.get(),
+                    'stock': en3.get(),
+                    'c_n': '',
+                    'c_num': '',
+                    'bill': '',
+                    's_p': en4.get(),
+                    'c_p': en6.get(),
+                    'vendor': en7.get(),
+                    'oid' : ddata
+
+                })
+
+                inven.destroy()
+
+                c.execute("SELECT *,oid FROM second")
+
+                records = c.fetchall()
+                # print(records)
+                roww = 1
+                for record in records:
+
+                    Label(myframe, text=record[10], bg='white', width=10).grid(row=roww, column=0)
+                    Label(myframe, text=record[0], bg='white', width=30).grid(row=roww, column=1)
+                    Label(myframe, text=record[1], bg='white', width=13).grid(row=roww, column=2)
+                    Label(myframe, text=record[2], bg='white', width=10).grid(row=roww, column=3)
+                    Label(myframe, text=record[3], bg='white', width=10).grid(row=roww, column=4)
+                    Label(myframe, text=record[8], bg='white', width=10).grid(row=roww, column=5)
+                    Label(myframe, text=record[9], bg='white', width=10).grid(row=roww, column=6)
+                    roww +=1
+
+                conn.commit()
+
+                conn.close()
+            else:
+                messagebox.showwarning('Empty field', 'Please fill all Entries')
+
+        conn = sqlite3.connect('database.db')
+
+        c = conn.cursor()
+
+        imgg = ImageTk.PhotoImage(Image.open('C:/Users/dell/Desktop/illustrato/Update_Product.png'))
+        lablo = Label(inven, image=imgg).place(x=0, y=0)
+        btn1 = Button(inven, text='Update', bg='#007884', height=1, width=10, activebackground='#007884',
+                    command=upd_product, font=fontt, bd=0).place(x=478, y=534)
+
+        btn2 = Button(inven, text='Clear', bg='#007884', height=1, width=10, activebackground='#007884', font=fontt, bd=0,
+                    command=clear_all).place(x=602, y=534)
+
+        lab1 = Label(inven, text='Product Name', bd=0, bg='white', font=font1).place(x=145, y=188)
+        lab2 = Label(inven, text='Category', bd=0, bg='white', font=font1).place(x=145, y=265)
+        lab3 = Label(inven, text='Quantity', bd=0, bg='white', font=font1).place(x=145, y=336)
+        lab4 = Label(inven, text='Selling Price(MRP)', bd=0, bg='white', font=font1).place(x=145, y=400)
+        lab5 = Label(inven, text='Sub Category', bd=0, bg='white', font=font1).place(x=620, y=265)
+        lab6 = Label(inven, text='Cost Price', bd=0, bg='white', font=font1).place(x=620, y=336)
+        lab7 = Label(inven, text='Vendor Phone No.', bd=0, bg='white', font=font1).place(x=620, y=400)
+
+        # Entries for update product
+
+        en1 = Entry(inven, bd=0, bg='white', fg='black', font=fontt)
+        en1.place(x=145, y=217)
+        en2 = Entry(inven, bd=0, bg='white', fg='black', font=fontt)
+        en2.place(x=145, y=292)
+        en3 = Entry(inven, bd=0, bg='white', fg='black', font=fontt)
+        en3.place(x=145, y=363)
+        en4 = Entry(inven, bd=0, bg='white', fg='black', font=fontt)
+        en4.place(x=145, y=426)
+        en5 = Entry(inven, bd=0, bg='white', fg='black', font=fontt)
+        en5.place(x=620, y=292)
+        en6 = Entry(inven, bd=0, bg='white', fg='black', font=fontt)
+        en6.place(x=620, y=363)
+        en7 = Entry(inven, bd=0, bg='white', fg='black', font=fontt)
+        en7.place(x=620, y=426)
+        global ddata
+        ddata = Ent1.get()
+
+        c.execute("SELECT * FROM second WHERE oid=" + ddata)
+        records = c.fetchall()
+
+        for record in records:
+            en1.insert(0, record[0])
+            en2.insert(0, record[1])
+            en3.insert(0, record[3])
+            en4.insert(0, record[7])
+            en5.insert(0, record[2])
+            en6.insert(0, record[8])
+            en7.insert(0, record[9])
+
+        conn.commit()
+
+        conn.close()
+    else:
+        messagebox.showwarning('Empty Field', 'Please Enter a number in the field')
 
 
 def inven_add():
@@ -263,60 +279,63 @@ def inven_add():
             i.delete(0, END)
 
     def add_product():
+        if en1a.get() != '' and en2a.get() != '' and en3a.get() != '' and en4a.get() != '' and en5a.get() != '' and en6a.get() != '' and en7a.get() != '':
 
-        conn = sqlite3.connect('database.db')
+            conn = sqlite3.connect('database.db')
 
-        c = conn.cursor()
+            c = conn.cursor()
 
-        # only for reference
+            # only for reference
 
-        # product text,
-        # category text,
-        # sub_category text,
-        # In_stock integer,
-        # customer_name text,
-        # contact_number text,
-        # bill_number text,
-        # selling_price integer,
-        # cost_price integer,
-        # vendor_no text
+            # product text,
+            # category text,
+            # sub_category text,
+            # In_stock integer,
+            # customer_name text,
+            # contact_number text,
+            # bill_number text,
+            # selling_price integer,
+            # cost_price integer,
+            # vendor_no text
 
-        c.execute(
-            "INSERT INTO second VALUES (:product, :category, :sub_category, :In_stock, :customer_name, :contact_number, :bill_number,:selling_price, :cost_price, :vendor_no)",
+            c.execute(
+                "INSERT INTO second VALUES (:product, :category, :sub_category, :In_stock, :customer_name, :contact_number, :bill_number,:selling_price, :cost_price, :vendor_no)",
 
-            {
-                'product': en1a.get(),
-                'category': en2a.get(),
-                'sub_category': en5a.get(),
-                'In_stock': en3a.get(),
-                'customer_name': '',
-                'contact_number': '',
-                'bill_number': '',
-                'selling_price': en4a.get(),
-                'cost_price': en6a.get(),
-                'vendor_no': en7a.get()
+                {
+                    'product': en1a.get(),
+                    'category': en2a.get(),
+                    'sub_category': en5a.get(),
+                    'In_stock': en3a.get(),
+                    'customer_name': '',
+                    'contact_number': '',
+                    'bill_number': '',
+                    'selling_price': en4a.get(),
+                    'cost_price': en6a.get(),
+                    'vendor_no': en7a.get()
 
-            })
-        c.execute("SELECT *,oid FROM second")
+                })
+            c.execute("SELECT *,oid FROM second")
 
-        records = c.fetchall()
-        # print(records)
-        roww = 1
-        for record in records:
+            records = c.fetchall()
+            # print(records)
+            roww = 1
+            for record in records:
 
-            Label(myframe, text=record[10], bg='white', width=10).grid(row=roww, column=0)
-            Label(myframe, text=record[0], bg='white', width=30).grid(row=roww, column=1)
-            Label(myframe, text=record[1], bg='white', width=13).grid(row=roww, column=2)
-            Label(myframe, text=record[2], bg='white', width=10).grid(row=roww, column=3)
-            Label(myframe, text=record[3], bg='white', width=10).grid(row=roww, column=4)
-            Label(myframe, text=record[8], bg='white', width=10).grid(row=roww, column=5)
-            Label(myframe, text=record[9], bg='white', width=10).grid(row=roww, column=6)
-            roww +=1
+                Label(myframe, text=record[10], bg='white', width=10).grid(row=roww, column=0)
+                Label(myframe, text=record[0], bg='white', width=30).grid(row=roww, column=1)
+                Label(myframe, text=record[1], bg='white', width=13).grid(row=roww, column=2)
+                Label(myframe, text=record[2], bg='white', width=10).grid(row=roww, column=3)
+                Label(myframe, text=record[3], bg='white', width=10).grid(row=roww, column=4)
+                Label(myframe, text=record[8], bg='white', width=10).grid(row=roww, column=5)
+                Label(myframe, text=record[9], bg='white', width=10).grid(row=roww, column=6)
+                roww +=1
 
-        conn.commit()
+            conn.commit()
 
-        conn.close()
-        inven.destroy()
+            conn.close()
+            inven.destroy()
+        else:
+            messagebox.showwarning('Empty Field', 'Please fill all Entries')
 
     imge = ImageTk.PhotoImage(Image.open('C:/Users/dell/Desktop/illustrato/Add_Product.png'))
     labloo = Label(inven, image=imge).place(x=0, y=0)
