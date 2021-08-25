@@ -12,7 +12,7 @@ window.resizable(0, 0)
 
 
 # Background Image
-bg = ImageTk.PhotoImage(file="employeeWindow.png")
+bg = ImageTk.PhotoImage(file="Images/employeeWindow.png")
 bg_image = Label(window, image=bg).place(x=0, y=0)
 
 
@@ -106,12 +106,9 @@ def clear_bill():
     contactNum.delete(0, END)
 
 
-
 bill_list = [[[], []]]
 roww = 0
 index_increment = 0
-
-
 # Function that adds product to the bill
 def addToCart():
     global roww
@@ -158,6 +155,7 @@ def addToCart():
             roww += 1
 
 
+
 # Function that removes product from the bill
 def remove():
     global roww
@@ -198,6 +196,7 @@ def remove():
     product_list = bill_list[0][0]
     quantity_list = bill_list[0][1]
 
+    a = 0
     while i != len(product_list):
         labb1 = Label(myFrame, text=product_list[index_increment_copy], width=20, bg="white")
         labb1.grid(row=rowww, column=1)
@@ -205,16 +204,55 @@ def remove():
         labb2 = Label(myFrame, text=quantity_list[index_increment_copy], width=45, bg="white")
         labb2.grid(row=rowww, column=2)
 
-        index_of_product = product_value.index(product.get())
+        index_of_product = product_value.index(product_list[a])
+        print(index_of_product)
         labb3 = Label(myFrame, text=int(quantity_list[index_increment_copy]) * int(cp_value[index_of_product]), width=6, bg="white")
         labb3.grid(row=rowww, column=3)
+
+        print(int(quantity_list[index_increment_copy]) * int(cp_value[index_of_product]))
 
         i += 1
         index_increment_copy += 1
         rowww += 1
+        a += 1
 
     roww -= 1
     index_increment -= 1
+
+def total():
+    conn = sqlite3.connect('database.db')
+    c = conn.cursor()
+
+    c.execute("SELECT *, oid FROM second")
+    records = c.fetchall()
+
+    cp_value = []
+    for record in records[:]:
+        cp_value.append(record[8])
+
+    product_value = []
+    for record in records:
+        product_value.append(record[0])
+
+    product_list = bill_list[0][0]
+    quantity_list = bill_list[0][1]
+
+
+    sum = 0
+    i = 0
+    while i != len(quantity_list):
+        product = bill_list[0][0][i]
+
+        index_of_product = product_value.index(product)
+        sum += int(quantity_list[i]) * int(cp_value[index_of_product])
+        i += 1
+
+
+    total_label = Label(window, text="Total", bg="white", font=("Poppins", 13))
+    total_label.place(x=590, y=558)
+
+    total_amount = Label(window, text=f"Rs. {sum}", bg="white", font=("Poppins", 13))
+    total_amount.place(x=990, y=558)
 
 
 # Function that generates bill and store bill data in database
@@ -239,7 +277,7 @@ btn4.place(x=373, y=448)
 btn5 = Button(window, text="Add To Cart", font=("Poppins", 11, "bold"), border=0, bg="#007884", fg="white", activebackground="#007884", activeforeground="#f1f1e6", cursor="hand2", command=addToCart)
 btn5.place(x=95, y=448)
 
-btn6 = Button(window, text="Total", font=("Poppins", 13, "bold"), border=0, bg="#007884", fg="white", activebackground="#007884", activeforeground="#f1f1e6", cursor="hand2")
+btn6 = Button(window, text="Total", font=("Poppins", 13, "bold"), border=0, bg="#007884", fg="white", activebackground="#007884", activeforeground="#f1f1e6", cursor="hand2", command=total)
 btn6.place(x=85, y=538)
 
 btn7 = Button(window, text="Generate", font=("Poppins", 12, "bold"), border=0, bg="#007884", fg="white", activebackground="#007884", activeforeground="#f1f1e6", cursor="hand2", command=generate)
@@ -334,6 +372,16 @@ myCanvas.create_window((0, 0), window=myFrame, anchor='nw')
 
 wrapper1.place(x=532, y=320)
 
+# Frame for total
+wrapper2 = LabelFrame(window, height=800, width=1000, bd=0)
+
+myCanvas2 = Canvas(wrapper2, height=30, width=590, bg='white')
+myCanvas2.pack(side=LEFT, fill='y', expand='yes')
+
+myFrame2 = Frame(myCanvas2)
+myCanvas2.create_window((0, 0), window=myFrame2, anchor='nw')
+
+wrapper2.place(x=532, y=553)
 
 conn.commit()
 conn.close()
