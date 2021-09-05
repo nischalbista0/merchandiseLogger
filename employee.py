@@ -68,7 +68,7 @@ def search():
 # Create an update function
 def emp_update():
     if searchbox.get() != '':
-        editor = Toplevel()  # using top to call instead of Tk()
+        editor = Toplevel()
         editor.title("Update Employee")
         editor.geometry("1191x670")
         editor.resizable(False, False)
@@ -106,8 +106,8 @@ def emp_update():
             # query of the database
             c.execute("SELECT *, oid FROM addresses")
 
-            records = c.fetchall()
             # print(records)
+            records = c.fetchall()
 
             # Loop through the results
             place = 1
@@ -134,7 +134,7 @@ def emp_update():
         c = conn.cursor()
 
         global bgg
-        # Define image as background
+        # Define image as background in Update Employee window
         bgg = ImageTk.PhotoImage(file="images/update_emp.png")
         bg_label = Label(editor, image=bgg)
         bg_label.place(x=0, y=0)
@@ -155,7 +155,7 @@ def emp_update():
 
         clock()
 
-        # creating labels
+        # Create labels
         title = Label(editor, text="Update Employee", fg="Black", bg="White", font=('Helvetica', 20, 'bold'))
         title.place(x=480, y=40)
 
@@ -183,24 +183,24 @@ def emp_update():
         password_label_editor.configure(font="-family {Poppins} -size 14")
         password_label_editor.place(x=625, y=338)
 
-        # creating entryboxes
+        # Create entryboxes
         entry_font = ('Poppins', 12)
-        namebox_editor = Entry(editor, borderwidth=0, font=entry_font)
+        namebox_editor = Entry(editor, borderwidth=0, font=entry_font, width = 40)
         namebox_editor.place(x=165, y=220)
         entry_font = ('Poppins', 12)
-        contactbox_editor = Entry(editor, borderwidth=0, font=entry_font)
+        contactbox_editor = Entry(editor, borderwidth=0, font=entry_font, width = 40)
         contactbox_editor.place(x=165, y=295)
         entry_font = ('Poppins', 12)
-        citizenbox_editor = Entry(editor, borderwidth=0, font=entry_font)
+        citizenbox_editor = Entry(editor, borderwidth=0, font=entry_font, width = 40)
         citizenbox_editor.place(x=165, y=368)
         entry_font = ('Poppins', 12)
-        designationbox_editor = Entry(editor, borderwidth=0, font=entry_font)
+        designationbox_editor = Entry(editor, borderwidth=0, font=entry_font, width = 40)
         designationbox_editor.place(x=630, y=220)
         entry_font = ('Poppins', 12)
-        addressbox_editor = Entry(editor, borderwidth=0, font=entry_font)
+        addressbox_editor = Entry(editor, borderwidth=0, font=entry_font, width = 40)
         addressbox_editor.place(x=630, y=295)
         entry_font = ('Poppins', 12)
-        passwordbox_editor = Entry(editor, borderwidth=0, font=entry_font)
+        passwordbox_editor = Entry(editor, borderwidth=0, font=entry_font, width = 40)
         passwordbox_editor.place(x=630, y=368)
 
         global record_id
@@ -217,7 +217,7 @@ def emp_update():
             addressbox_editor.insert(0, record[4])
             passwordbox_editor.insert(0, record[5])
 
-        # clearing everything from the update's textbox
+        # Clear everything from the update's textbox
         def update_clear():
             l = [namebox_editor, contactbox_editor, citizenbox_editor, designationbox_editor, addressbox_editor,
                  passwordbox_editor]
@@ -225,7 +225,7 @@ def emp_update():
             for i in l:
                 i.delete(0, END)
 
-        # creating buttons
+        # Create buttons
         update_bt_editor = Button(editor, text="Update", bg="#007884", fg="White", activeforeground="White",
                                   activebackground="#007884", borderwidth=0, pady=0, cursor="hand2", command=edit)
         update_bt_editor.configure(font="-family {Poppins} -size 14")
@@ -245,7 +245,7 @@ def emp_update():
 #-----------------Add new data---------------------
 def add_emp():
     global bg
-    top = Toplevel()  # using top to call instead of Tk()
+    top = Toplevel()
     top.title("Add Employee")
     top.geometry("1191x670")
     top.resizable(False, False)
@@ -276,8 +276,8 @@ def add_emp():
             # query of the database
             c.execute("SELECT *, oid FROM addresses")
 
-            records = c.fetchall()
             # print(records)
+            records = c.fetchall()
 
             # Loop through the results
             place = 1
@@ -301,7 +301,7 @@ def add_emp():
         else:
             messagebox.showwarning("Warning!", "Fill up Everything")
 
-    # Define image as background
+    # Define image as background in Add Employee window
     bg = ImageTk.PhotoImage(file="images/add_emp.png")
     bg_label = Label(top, image=bg)
     bg_label.place(x=0, y=0)
@@ -322,7 +322,7 @@ def add_emp():
 
     clock()
 
-    # creating labels
+    # Create labels
     title = Label(top, text="Add Employee", fg="Black", bg="White", font=('Helvetica', 20, 'bold'))
     title.place(x=480, y=40)
 
@@ -357,29 +357,29 @@ def add_emp():
         for i in l:
             i.delete(0, END)
 
-    # creating entry boxes
+    # Create entry boxes
     entry_font = ('Poppins', 12)
-    namebox = Entry(top, borderwidth=0, font=entry_font)
+    namebox = Entry(top, borderwidth=0, font=entry_font, width = 40)
     namebox.place(x=165, y=220)
 
     entry_font = ('Poppins', 12)
-    contactbox = Entry(top, borderwidth=0, font=entry_font)
+    contactbox = Entry(top, borderwidth=0, font=entry_font, width = 40)
     contactbox.place(x=165, y=295)
 
     entry_font = ('Poppins', 12)
-    citizenbox = Entry(top, borderwidth=0, font=entry_font)
+    citizenbox = Entry(top, borderwidth=0, font=entry_font, width = 40)
     citizenbox.place(x=165, y=368)
 
     entry_font = ('Poppins', 12)
-    designationbox = Entry(top, borderwidth=0, font=entry_font)
+    designationbox = Entry(top, borderwidth=0, font=entry_font, width = 40)
     designationbox.place(x=630, y=220)
 
     entry_font = ('Poppins', 12)
-    addressbox = Entry(top, borderwidth=0, font=entry_font)
+    addressbox = Entry(top, borderwidth=0, font=entry_font, width = 40)
     addressbox.place(x=630, y=295)
 
     entry_font = ('Poppins', 12)
-    passwordbox = Entry(top, borderwidth=0, font=entry_font)
+    passwordbox = Entry(top, borderwidth=0, font=entry_font, width = 40)
     passwordbox.place(x=630, y=368)
 
     # creating buttons
@@ -394,7 +394,7 @@ def add_emp():
     clear_bt.place(x=655, y=522)
 
 
-# function to delete a data
+# Create function to delete a data
 def delete():
     if searchbox.get() != '':
         # create database
@@ -504,7 +504,7 @@ logout_bt = Button(root, text="Log Out", fg="White", activeforeground="White",
 logout_bt.configure(font="-family {Poppins} -size 14")
 logout_bt.place(x=1046, y=607)
 
-#Create Frame with scrollbar
+# -------------Create Frame with scrollbar--------------
 cover = LabelFrame(root, height=800, width=1000, bd=0)
 cover.place(x=457, y=100)
 
@@ -518,6 +518,7 @@ yscrollbar = ttk.Scrollbar(cover, orient='vertical', command=mycanvas.yview)
 yscrollbar.pack(side=RIGHT, fill='y')
 mycanvas.config(yscrollcommand=yscrollbar.set)
 mycanvas.bind('<Configure>', lambda e: mycanvas.configure(scrollregion=mycanvas.bbox('all')))
+# -------------------------------------------------------------
 
 # Create labels
 title = Label(root, text="Employee Management", fg="Black", bg="white", font=('Helvetica', 20, 'bold'))
