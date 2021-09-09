@@ -7,16 +7,15 @@ import sqlite3
 import ast
 from datetime import datetime
 
+# Setting up window
 window = Tk()
 window.title("Employee")
 window.geometry("1191x670")
 window.resizable(0, 0)
 
-
 # Background Image
 bg = ImageTk.PhotoImage(file="images/employeeWindow.png")
 bg_image = Label(window, image=bg).place(x=0, y=0)
-
 
 # Displaying clock on screen
 def clock():
@@ -27,15 +26,12 @@ def clock():
     time_label.config(text=hour + ":" + minute + ":" + second)
     time_label.after(1000, clock)
 
-
-time_label = Label(window, text="", font=("Comic Sans MS", 14, "bold"), bg="white")
-time_label.place(x=1050, y=31)
+time_label = Label(window, text="", font=("DS-digital", 25, "bold"), bg="white")
+time_label.place(x=1030, y=30)
 clock()
-
 
 # Storing current date in a variable
 current_date = datetime.today().strftime('%Y-%m-%d')
-
 
 # Working with database
 conn = sqlite3.connect('billDatabase.db')
@@ -58,10 +54,10 @@ def category_input():
     c = conn.cursor()
 
     c.execute("SELECT *, oid FROM second")
-    records = c.fetchall()
+    records = c.fetchall()  # Storing all the data of database in 'records' variable
 
     category_value = []
-    for record in records:
+    for record in records:  # Looping through records to store category values in list
         category_value.append(record[1])
 
     return category_value
@@ -76,7 +72,7 @@ def sub_category_input():
     records = c.fetchall()
 
     sub_category_value = []
-    for record in records:
+    for record in records:  # Looping through records to store sub category values in list
         sub_category_value.append(record[2])
 
     return sub_category_value
@@ -91,29 +87,20 @@ def product_input():
     records = c.fetchall()
 
     product_value = []
-    for record in records:
+    for record in records:  # Looping through records to store products values in list
         product_value.append(record[0])
 
     return product_value
 
 
-# Function that clears 'Products' frame
-def clear():
-    quantityEntry.delete(0, END)
-    category.delete(0, END)
-    subCategory.delete(0, END)
-    product.delete(0, END)
-
-
-bill_list = [[[], [], []]]
+bill_list = [[[], [], []]]  # Empty list to store all data before adding to database
 product_list = bill_list[0][0]
 quantity_list = bill_list[0][1]
 
 
-roww = 0
-
-index_increment = 0
 # Function that adds product to the bill
+roww = 0
+index_increment = 0
 def addToCart():
     global roww
     global index_increment
@@ -121,8 +108,9 @@ def addToCart():
     global lab2
     global lab3
 
+    # Showing messagebox if given condition occurs
     if category.get() == '' or subCategory.get() == '' or product.get() == '' or quantityEntry.get() == '':
-        messagebox.showerror("Incomplete Information!!", "Please fill up all the details!")
+        messagebox.showerror("Incomplete Information!!", "Please fill up all the product details!")
 
     else:
         conn = sqlite3.connect('database.db')
@@ -131,19 +119,21 @@ def addToCart():
         c.execute("SELECT *, oid FROM second")
         records = c.fetchall()
 
+        # Looping through records and appending all cost price in empty list
         cp_value = []
         for record in records[:]:
             cp_value.append(record[8])
 
+        # Looping through records and appending all products in empty list
         product_value = []
         for record in records:
             product_value.append(record[0])
 
-        price_value = []
-
+        # Appending to all products and quantities in empty list 'bill_list'
         bill_list[0][0].append(product.get())
         bill_list[0][1].append(int(quantityEntry.get()))
 
+        # Looping through list to display added products in bill
         for value in bill_list:
             lab1 = Label(myFrame, text=value[0][index_increment], width=20, bg="white")
             lab1.grid(row=roww, column=1)
@@ -160,11 +150,9 @@ def addToCart():
             index_increment += 1
             roww += 1
 
-        print(bill_list)
 
-
-index = 0
 # Function that removes product from the bill
+index = 0
 def remove():
     global roww
     global index
@@ -191,24 +179,24 @@ def remove():
     for record in records:
         product_value.append(record[0])
 
+    # Destroying all the widgets of 'myFrame' frame
     for widgets in myFrame.winfo_children():
         widgets.destroy()
-
     myFrame.configure(bg="white")
 
     remove_product = str(product.get())
     remove_quantity = int(quantityEntry.get())
 
+    # Removing selected product's data from the list
     bill_list[0][0].remove(remove_product)
     index_of_product = product_value.index(product.get())
     bill_list[0][2].remove(remove_quantity * int(cp_value[index_of_product]))
     bill_list[0][1].remove(remove_quantity)
 
-    print(bill_list)
-
     product_list = bill_list[0][0]
     quantity_list = bill_list[0][1]
 
+    # Displaying all the data in bill after removing selected product's data
     a = 0
     while i != len(product_list):
         labb1 = Label(myFrame, text=product_list[index_increment_copy], width=20, bg="white")
@@ -234,18 +222,18 @@ def remove():
     index_increment = len(bill_list[0][1])
 
 
-
+# Function that calculates and shows total price
 def total():
-    # global sum
+    global sum
     global index_increment
-
-    sum = 0
 
     conn = sqlite3.connect('database.db')
     c = conn.cursor()
 
     c.execute("SELECT *, oid FROM second")
     records = c.fetchall()
+
+    sum = 0
 
     cp_value = []
     for record in records[:]:
@@ -283,16 +271,16 @@ def generate():
     global bill_label_2
     global bill_label_3
     global bill_label_4
+    global sum
 
     product_list_string = f'"{product_list}"'
-    print(product_list_string)
     quantity_list_string = f'"{quantity_list}"'
 
+    # Displaying messagebox if below conditions occur
     if customerName.get() == '' or contactNum.get() == '' or category.get() == '' or subCategory.get() == '' or product.get() == '' or quantityEntry.get() == '':
         messagebox.showerror("Incomplete Information!!", "Please fill up all the details!")
 
     else:
-        # -------------------------------------------------- Testing ---------------------------------------------------------------
         connect = sqlite3.connect('billDatabase.db')
         cursor = connect.cursor()
 
@@ -301,7 +289,6 @@ def generate():
         bill_number = int(bill_records[-1][2]) + 1
 
         connect.close()
-        # -------------------------------------------------- Testing ---------------------------------------------------------------
 
         conn = sqlite3.connect('billDatabase.db')
         c = conn.cursor()
@@ -322,6 +309,7 @@ def generate():
 
         records = c.fetchall()
 
+        # Displaying customer information on bill
         bill_label_1 = Label(window, text=customerName.get(), font=("Microsoft Sans Serif", 13), bg="white", fg="#0D1C30")
         bill_label_1.place(x=670, y=230)
         bill_label_2 = Label(window, text=contactNum.get(), font=("Microsoft Sans Serif", 13), bg="white", fg="#0D1C30")
@@ -330,6 +318,8 @@ def generate():
         bill_label_3.place(x=995, y=230)
         bill_label_4 = Label(window, text=bill_number, font=("Microsoft Sans Serif", 13), bg="white", fg="#0D1C30")
         bill_label_4.place(x=995, y=255)
+
+        messagebox.showinfo("Bill Generated Successfully!", "Bill has been added to the database successfully.")
 
         conn.commit()
         conn.close()
@@ -348,21 +338,18 @@ def search():
     blank_label2 = Label(window, text="", bg="white", width=16, height=3)
     blank_label2.place(x=995, y=230)
 
-    # ------------------------------------------ Testing ------------------------------------------------------------------------
+    # --------------------------------------------------------------
     connect = sqlite3.connect("database.db")
     cursor = connect.cursor()
 
     cursor.execute("SELECT * FROM second")
 
     inventory_records = cursor.fetchall()
-    print(inventory_records)
 
     products_and_cp = {}
     for record in inventory_records:
         products_and_cp[record[0]] = record[7]
-
-    print(products_and_cp)
-    # ------------------------------------------ Testing ------------------------------------------------------------------------
+    # ----------------------------------------------------------------
 
     conn = sqlite3.connect("billDatabase.db")
     c = conn.cursor()
@@ -376,6 +363,7 @@ def search():
 
     selected_bill_number = int(billNum.get())
 
+    # Looping through records to display all the data of searched bill number
     for record in records:
         if selected_bill_number == record[2]:
             bill_label1 = Label(window, text=record[0], font=("Microsoft Sans Serif", 13), bg="white", fg="#0D1C30")
@@ -395,14 +383,13 @@ def search():
             myList1 = record[4]
             products = ast.literal_eval(myList1)
             final_products = ast.literal_eval(products)
-            print(final_products)
 
             # Quantities
             myList2 = record[5]
-            quantities = ast.literal_eval(myList2)
+            # Converting string list into actual list
+            quantities = ast.literal_eval(myList2)  # 
             final_quantities = ast.literal_eval(quantities)
 
-    # --------------------------------------------- Testing ---------------------------------------------------------------------------
             roow = 0
             for product in final_products:
                 lab1 = Label(myFrame, text=product, width=20, bg="white")
@@ -418,7 +405,13 @@ def search():
                 lab3.grid(row=rooww, column=3)
                 rooww += 1
 
-    # --------------------------------------------- Testing ---------------------------------------------------------------------------
+
+# Function that clears 'Products' frame
+def clear():
+    quantityEntry.delete(0, END)
+    category.delete(0, END)
+    subCategory.delete(0, END)
+    product.delete(0, END)
 
 
 # Function that clears 'Customer Details' frame and bill
@@ -443,7 +436,7 @@ def clear_bill():
     bill_label4.place_forget()
 
 
-# Creating buttons
+# Creating and placing buttons
 btn1 = Button(window, text="Search", font=("Poppins", 13, "bold"), border=0, bg="#007884", fg="white", activebackground="#007884", activeforeground="#f1f1e6", cursor="hand2", comman=search)
 btn1.place(x=328, y=86)
 
@@ -456,8 +449,8 @@ btn3.place(x=235, y=448)
 btn4 = Button(window, text="Clear", font=("Poppins", 13, "bold"), border=0, bg="#007884", fg="white", activebackground="#007884", activeforeground="#f1f1e6", cursor="hand2", command=clear)
 btn4.place(x=373, y=448)
 
-btn5 = Button(window, text="Add To Cart", font=("Poppins", 11, "bold"), border=0, bg="#007884", fg="white", activebackground="#007884", activeforeground="#f1f1e6", cursor="hand2", command=addToCart)
-btn5.place(x=95, y=448)
+btn5 = Button(window, text="Add", font=("Poppins", 13, "bold"), border=0, bg="#007884", fg="white", activebackground="#007884", activeforeground="#f1f1e6", cursor="hand2", command=addToCart)
+btn5.place(x=120, y=448)
 
 btn6 = Button(window, text="Total", font=("Poppins", 13, "bold"), border=0, bg="#007884", fg="white", activebackground="#007884", activeforeground="#f1f1e6", cursor="hand2", command=total)
 btn6.place(x=85, y=538)
@@ -530,10 +523,10 @@ label17.place(x=889, y=255)
 # Creating and placing entries
 billNum = Entry(window, bd=0, width=12 , font=("Franklin Gothic Medium", 13))
 billNum.place(x=180, y=92)
+billNum.focus()
 
 customerName = Entry(window, bd=0, width=22 , font=("Franklin Gothic Medium", 13))
 customerName.place(x=590, y=92)
-customerName.focus()
 
 contactNum = Entry(window, bd=0, width=16 , font=("Franklin Gothic Medium", 13))
 contactNum.place(x=985, y=92)
@@ -556,26 +549,21 @@ product.place(x=65, y=325)
 product['values'] = product_input()
 
 
-# Frame for bill
+# Creating frame for displaying bill
 wrapper1 = LabelFrame(window, height=800, width=1000, bd=0)
-
 myCanvas = Canvas(wrapper1, height=230, width=590, bg='white')
 myCanvas.pack(side=LEFT, fill='y', expand='yes')
-
 myFrame = Frame(myCanvas)
 myCanvas.create_window((0, 0), window=myFrame, anchor='nw')
-
 wrapper1.place(x=532, y=320)
 
-# Frame for total
-wrapper2 = LabelFrame(window, height=800, width=1000, bd=0)
 
+# Creating frame for displaying total price
+wrapper2 = LabelFrame(window, height=800, width=1000, bd=0)
 myCanvas2 = Canvas(wrapper2, height=30, width=590, bg='white')
 myCanvas2.pack(side=LEFT, fill='y', expand='yes')
-
 myFrame2 = Frame(myCanvas2)
 myCanvas2.create_window((0, 0), window=myFrame2, anchor='nw')
-
 wrapper2.place(x=532, y=550)
 
 conn.commit()
