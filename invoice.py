@@ -13,6 +13,7 @@ bg = ImageTk.PhotoImage(file="images/invoice_window.png")
 bg_image = Label(root, image=bg).place(x=0, y=0)
 
 
+# Function that searches the bill number and highlights it at the top
 def search():
     for widgets in myFrame.winfo_children():
         widgets.destroy()
@@ -68,9 +69,8 @@ def search():
         conn.close()
 
 
+# Function that displays searched bill in new window
 def open():
-    # ------------------------------------------ Testing ------------------------------------------------------------------------
-
     connect = sqlite3.connect("database.db")
     cursor = connect.cursor()
 
@@ -82,8 +82,6 @@ def open():
     products_and_cp = {}
     for record in inventory_records:
         products_and_cp[record[0]] = record[7]
-
-    # ------------------------------------------ Testing ------------------------------------------------------------------------
 
     conn = sqlite3.connect("billDatabase.db")
     c = conn.cursor()
@@ -110,26 +108,19 @@ def open():
 
         # Frame for bill
         wrapper1 = LabelFrame(new, height=800, width=1000, bd=0)
-
         myCanvas = Canvas(wrapper1, height=236, width=570, bg='white')
         myCanvas.pack(side=LEFT, fill='y', expand='yes')
-
         myFrame = Frame(myCanvas)
         myCanvas.create_window((0, 0), window=myFrame, anchor='nw')
-
         wrapper1.place(x=35, y=166)
 
         # Frame for total
         wrapper2 = LabelFrame(new, height=800, width=1000, bd=0)
-
         myCanvas2 = Canvas(wrapper2, height=30, width=570, bg='white')
         myCanvas2.pack(side=LEFT, fill='y', expand='yes')
-
         myFrame2 = Frame(myCanvas2)
         myCanvas2.create_window((0, 0), window=myFrame2, anchor='nw')
-
         wrapper2.place(x=35, y=405)
-
 
         # Placing bill labels
         bill_label_1 = Label(new, text="Product Name", bg="white", font=("Microsoft Sans Serif", 13, "bold"))
@@ -234,19 +225,17 @@ createLabel("Invoices", "black", ("Poppins", 25, "bold"), 540, 50)
 createLabel("Bill Number", "black", ("Poppins", 14), 60, 150)
 createLabel("Bill Options", "black", ("Poppins", 14), 60, 260)
 
+
 # Frame
 wrapper1 = LabelFrame(root, height=800, width=1000, bd=0)
-
 myCanvas = Canvas(wrapper1, height=483, width=725, bg='white')
 myCanvas.pack(side=LEFT, fill='y', expand='yes')
-
 myFrame = Frame(myCanvas)
 myCanvas.create_window((0, 0), window=myFrame, anchor='nw')
-
 wrapper1.place(x=420, y=107)
 
-# Labels for showing bill details
 
+# Labels for showing bill details
 label1 = Label(myFrame, text="Bill Number", bg="white", font=("Microsoft Sans Serif", 13, "bold"), width=13, fg="#0D1C30")
 label1.grid(row=0,column=0)
 
@@ -260,14 +249,12 @@ label4 = Label(myFrame, text="Date", bg="white", font=("Microsoft Sans Serif", 1
 label4.grid(row=0,column=3)
 
 
-# Showing data
-
+# Showing all the bill created in listed view
 conn = sqlite3.connect("billDatabase.db")
 c = conn.cursor()
 
 c.execute("SELECT * FROM bill")
 records = c.fetchall()
-
 
 roww = 1
 for record in records:
@@ -284,7 +271,6 @@ for record in records:
 
 conn.commit()
 conn.close()
-
 
 # Creating and placing entry
 billNumber = Entry(root, bd=0, width=20, font=("Franklin Gothic Medium", 13))
