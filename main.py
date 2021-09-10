@@ -9,12 +9,13 @@ root = Tk()
 root.geometry('1193x671')
 root.title('Just checking')
 root.resizable(False, False)
-
+'''
 fontt = Font(
     family='Poppins',
     size=10,
     # weight='bold'
 )
+'''
 font1 = Font(
     family='Poppins',
     size=14,
@@ -212,38 +213,38 @@ def inven_update():
 
         c = conn.cursor()
 
-        imgg = ImageTk.PhotoImage(Image.open('C:/Users/dell/Desktop/illustrato/Update_Product.png'))
+        imgg = ImageTk.PhotoImage(Image.open('C:/Users/dell/Desktop/Changed_UI/Update_Product.jpg'))
         lablo = Label(inven, image=imgg).place(x=0, y=0)
-        btn1 = Button(inven, text='Update', bg='#007884', height=1, width=10, activebackground='#007884',
-                    command=upd_product, font=fontt, bd=0).place(x=478, y=534)
+        btn1 = Button(inven, text='Update', bg='#007884', height=1, width=13,fg='white',cursor='hand2', activebackground='#007884',
+                      bd=0,  command=upd_product, font=font1).place(x=410, y=518)
 
-        btn2 = Button(inven, text='Clear', bg='#007884', height=1, width=10, activebackground='#007884', font=fontt, bd=0,
-                    command=clear_all).place(x=602, y=534)
+        btn2 = Button(inven, text='Clear', bg='#007884', height=1,fg='white', width=13,cursor='hand2', activebackground='#007884', font=font1,
+                      bd=0,  command=clear_all).place(x=618, y=518)
 
         lab1 = Label(inven, text='Product Name', bd=0, bg='white', font=font1).place(x=145, y=188)
-        lab2 = Label(inven, text='Category', bd=0, bg='white', font=font1).place(x=145, y=265)
-        lab3 = Label(inven, text='Quantity', bd=0, bg='white', font=font1).place(x=145, y=336)
-        lab4 = Label(inven, text='Selling Price(MRP)', bd=0, bg='white', font=font1).place(x=145, y=400)
-        lab5 = Label(inven, text='Sub Category', bd=0, bg='white', font=font1).place(x=620, y=265)
-        lab6 = Label(inven, text='Cost Price', bd=0, bg='white', font=font1).place(x=620, y=336)
-        lab7 = Label(inven, text='Vendor Phone No.', bd=0, bg='white', font=font1).place(x=620, y=400)
+        lab2 = Label(inven, text='Category', bd=0, bg='white', font=font1).place(x=145, y=255)
+        lab3 = Label(inven, text='Quantity', bd=0, bg='white', font=font1).place(x=145, y=328)
+        lab4 = Label(inven, text='Selling Price(MRP)', bd=0, bg='white', font=font1).place(x=145, y=392)
+        lab5 = Label(inven, text='Sub Category', bd=0, bg='white', font=font1).place(x=620, y=255)
+        lab6 = Label(inven, text='Cost Price', bd=0, bg='white', font=font1).place(x=620, y=328)
+        lab7 = Label(inven, text='Vendor Phone No.', bd=0, bg='white', font=font1).place(x=620, y=392)
 
         # Entries for update product
 
-        en1 = Entry(inven, bd=0, bg='white', fg='black', font=fontt)
+        en1 = Entry(inven,  bg='white', bd=0, fg='black', font=font1, width=50)
         en1.place(x=145, y=217)
-        en2 = Entry(inven, bd=0, bg='white', fg='black', font=fontt)
-        en2.place(x=145, y=292)
-        en3 = Entry(inven, bd=0, bg='white', fg='black', font=fontt)
-        en3.place(x=145, y=363)
-        en4 = Entry(inven, bd=0, bg='white', fg='black', font=fontt)
-        en4.place(x=145, y=426)
-        en5 = Entry(inven, bd=0, bg='white', fg='black', font=fontt)
-        en5.place(x=620, y=292)
-        en6 = Entry(inven, bd=0, bg='white', fg='black', font=fontt)
-        en6.place(x=620, y=363)
-        en7 = Entry(inven, bd=0, bg='white', fg='black', font=fontt)
-        en7.place(x=620, y=426)
+        en2 = Entry(inven,  bg='white', bd=0, fg='black', font=font1, width=36)
+        en2.place(x=145, y=285)
+        en3 = Entry(inven, bd=0, bg='white', fg='black', font=font1, width=36)
+        en3.place(x=145, y=358)
+        en4 = Entry(inven,  bg='white', bd=0, fg='black', font=font1, width=36)
+        en4.place(x=145, y=422)
+        en5 = Entry(inven,  bg='white', bd=0, fg='black', font=font1, width=34)
+        en5.place(x=620, y=285)
+        en6 = Entry(inven,  bg='white', bd=0, fg='black', font=font1, width=34)
+        en6.place(x=620, y=358)
+        en7 = Entry(inven,  bg='white', bd=0, fg='black', font=font1, width=34)
+        en7.place(x=620, y=422)
         global ddata
         ddata = Ent1.get()
 
@@ -337,66 +338,66 @@ def inven_add():
         else:
             messagebox.showwarning('Empty Field', 'Please fill all Entries')
 
-    imge = ImageTk.PhotoImage(Image.open('C:/Users/dell/Desktop/illustrato/Add_Product.png'))
+    imge = ImageTk.PhotoImage(Image.open('C:/Users/dell/Desktop/Changed_UI/Add_Product.jpg'))
     labloo = Label(inven, image=imge).place(x=0, y=0)
-    btn1a = Button(inven, text='Add', bg='#007884', height=1, width=10, activebackground='#007884',
-                   command=add_product, font=fontt, bd=0).place(x=478, y=534)
+    btn1a = Button(inven, text='Add', bg='#007884', height=1, width=12,cursor='hand2',fg='white', activebackground='#007884',
+                   command=add_product, font=font1, bd=0).place(x=410, y=520)
 
-    btn2a = Button(inven, text='Clear', bg='#007884', height=1, width=10, activebackground='#007884', font=fontt,
-                   bd=0, command=clear_all).place(x=602, y=534)
+    btn2a = Button(inven, text='Clear', bg='#007884', height=1,fg='white',cursor='hand2', width=12, activebackground='#007884', font=font1,
+                   bd=0, command=clear_all).place(x=620, y=520)
 
     lab1a = Label(inven, text='Product Name', bd=0, bg='white', font=font1).place(x=145, y=188)
-    lab2a = Label(inven, text='Category', bd=0, bg='white', font=font1).place(x=145, y=265)
-    lab3a = Label(inven, text='Quantity', bd=0, bg='white', font=font1).place(x=145, y=336)
-    lab4a = Label(inven, text='Selling Price(MRP)', bd=0, bg='white', font=font1).place(x=145, y=400)
-    lab5a = Label(inven, text='Sub Category', bd=0, bg='white', font=font1).place(x=620, y=265)
-    lab6a = Label(inven, text='Cost Price', bd=0, bg='white', font=font1).place(x=620, y=336)
-    lab7a = Label(inven, text='Vendor Phone No.', bd=0, bg='white', font=font1).place(x=620, y=400)
+    lab2a = Label(inven, text='Category', bd=0, bg='white', font=font1).place(x=145, y=255)
+    lab3a = Label(inven, text='Quantity', bd=0, bg='white', font=font1).place(x=145, y=328)
+    lab4a = Label(inven, text='Selling Price(MRP)', bd=0, bg='white', font=font1).place(x=145, y=392)
+    lab5a = Label(inven, text='Sub Category', bd=0, bg='white', font=font1).place(x=620, y=255)
+    lab6a = Label(inven, text='Cost Price', bd=0, bg='white', font=font1).place(x=620, y=328)
+    lab7a = Label(inven, text='Vendor Phone No.', bd=0, bg='white', font=font1).place(x=620, y=392)
 
     # Entries for update product
 
-    en1a = Entry(inven, bd=0, bg='white', fg='black', font=fontt)
+    en1a = Entry(inven,  bg='white', bd=0, fg='black', font=font1, width= 50)
     en1a.place(x=145, y=217)
-    en2a = Entry(inven, bd=0, bg='white', fg='black', font=fontt)
-    en2a.place(x=145, y=292)
-    en3a = Entry(inven, bd=0, bg='white', fg='black', font=fontt)
-    en3a.place(x=145, y=363)
-    en4a = Entry(inven, bd=0, bg='white', fg='black', font=fontt)
-    en4a.place(x=145, y=426)
-    en5a = Entry(inven, bd=0, bg='white', fg='black', font=fontt)
-    en5a.place(x=620, y=292)
-    en6a = Entry(inven, bd=0, bg='white', fg='black', font=fontt)
-    en6a.place(x=620, y=363)
-    en7a = Entry(inven, bd=0, bg='white', fg='black', font=fontt)
-    en7a.place(x=620, y=426)
+    en2a = Entry(inven,  bg='white', bd=0, fg='black', font=font1, width=36)
+    en2a.place(x=145, y=285)
+    en3a = Entry(inven,  bg='white', bd=0, fg='black', font=font1, width=36)
+    en3a.place(x=145, y=358)
+    en4a = Entry(inven,  bg='white', bd=0, fg='black', font=font1, width=36)
+    en4a.place(x=145, y=422)
+    en5a = Entry(inven,  bg='white', bd=0, fg='black', font=font1, width=34)
+    en5a.place(x=620, y=285)
+    en6a = Entry(inven,  bg='white', bd=0, fg='black', font=font1, width=34)
+    en6a.place(x=620, y=358)
+    en7a = Entry(inven,  bg='white', bd=0, fg='black', font=font1, width=34)
+    en7a.place(x=620, y=422)
 
 
-img = ImageTk.PhotoImage(Image.open('C:/Users/dell/Desktop/illustrato/Inventory.png'))
+img = ImageTk.PhotoImage(Image.open('C:/Users/dell/Desktop/Changed_UI/Inventory.jpg'))
 lable = Label(root, image=img).place(x=0, y=0)
 
-lab1 = Label(root, text='Menu', bg='white', font=fontt)
-lab1.place(x=70, y=155)
+lab1 = Label(root, text='Menu', bg='white', font=font1)
+lab1.place(x=66, y=152)
 
-Ent1 = Entry(root, bd=0, bg='white', fg='black', font=fontt)
+Ent1 = Entry(root,bd=0,width=16, bg='white', fg='black', font=font1)
 Ent1.place(x=70, y=210)
 
-btn1 = Button(root, text='Logout', height=1, width=7, bg='#007884', activebackground='#007884', font=fontt, bd=0,cursor='hand2',
-              fg='white').place(x=65, y=96)
+btn1 = Button(root, text='Logout', height=1, width=6, bg='#007884', activebackground='#007884',bd=0, font=font1,cursor='hand2',
+              fg='white').place(x=70, y=96)
 
-btn2 = Button(root, text='Search', height=1, width=9, bg='#007884', activebackground='#007884', font=fontt,fg='white' ,cursor='hand2',bd=0, command=search_it).place(
-    x=262, y=215)
+btn2 = Button(root,text='Search', height=1, width=7, bg='#007884', activebackground='#007884', bd=0, font=font1,fg='white' ,cursor='hand2', command=search_it).place(
+    x=263, y=213)
 
-btn3 = Button(root, text='Add Product', height=1, width=26, bg='#007884', activebackground='#007884',fg='white' , font=fontt,cursor='hand2', bd=0,
-              command=inven_add).place(x=76, y=316)
+btn3 = Button(root, text='Add Product', height=1, width=19, bg='#007884', activebackground='#007884',fg='white', font=font1,bd=0,cursor='hand2',
+              command=inven_add).place(x=94, y=323)
 
-btn4 = Button(root, text='Update Product', height=1, width=26, bg='#007884', activebackground='#007884',fg='white' ,cursor='hand2',
-              command=inven_update, font=fontt, bd=0).place(x=76, y=392)
+btn4 = Button(root, text='Update Product', height=1, width=19, bg='#007884', activebackground='#007884',fg='white' ,cursor='hand2',
+              command=inven_update, font=font1, bd=0).place(x=92, y=405)
 
-btn5 = Button(root, text='Delete Product', height=1, width=26, bg='#007884', activebackground='#007884', font=fontt,fg='white' ,cursor='hand2',
-              bd=0, command=deletee).place(x=76, y=469)
+btn5 = Button(root, text='Delete Product', height=1, width=19, bg='#007884', activebackground='#007884', font=font1,fg='white' ,cursor='hand2',
+              bd=0, command=deletee).place(x=92, y=485)
 
-btn6 = Button(root, text='Exit', height=1, width=7, bg='#007884', activebackground='#007884', font=fontt, bd=0,cursor='hand2',fg='white' ).place(
-    x=148, y=560)
+btn6 = Button(root, text='Exit', height=1, width=7, bg='#007884',bd=0, activebackground='#007884', font=font1, cursor='hand2',fg='white' ).place(
+    x=158, y=554)
 
 wrapper1 = LabelFrame(root, height=800, width=1000, bd=0)
 
