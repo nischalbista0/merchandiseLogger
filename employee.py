@@ -14,7 +14,7 @@ window.geometry("1191x670")
 window.resizable(0, 0)
 
 # Background Image
-bg = ImageTk.PhotoImage(file="images/employeeWindow.png")
+bg = ImageTk.PhotoImage(file="employeeWindow.png")
 bg_image = Label(window, image=bg).place(x=0, y=0)
 
 # Displaying clock on screen
@@ -386,8 +386,7 @@ def search():
 
             # Quantities
             myList2 = record[5]
-            # Converting string list into actual list
-            quantities = ast.literal_eval(myList2)  # 
+            quantities = ast.literal_eval(myList2)
             final_quantities = ast.literal_eval(quantities)
 
             roow = 0
@@ -413,6 +412,9 @@ def clear():
     subCategory.delete(0, END)
     product.delete(0, END)
 
+    clear_in_stock = Label(window, text=f"                             ", bg="white", fg="brown", font=("Poppins", 13, "bold"), padx=16)
+    clear_in_stock.place(x=52, y=410)
+
 
 # Function that clears 'Customer Details' frame and bill
 def clear_bill():
@@ -434,6 +436,24 @@ def clear_bill():
     bill_label2.place_forget()
     bill_label3.place_forget()
     bill_label4.place_forget()
+
+
+def show_quantity(event):
+    global in_stock
+
+    connect = sqlite3.connect("database.db")
+    cursor = connect.cursor()
+
+    cursor.execute("SELECT * FROM second")
+
+    inventory_records = cursor.fetchall()
+
+    current = product.get()
+
+    for record in inventory_records:
+        if record[0] == current:
+            in_stock = Label(window, text=f"In Stock: {record[3]}", bg="white", fg="brown", font=("Poppins", 13, "bold"), padx=16)
+            in_stock.place(x=52, y=410)
 
 
 # Creating and placing buttons
@@ -519,7 +539,6 @@ label16.place(x=940, y=230)
 label17 = Label(window, text="Bill Number :", bg="white", font=("Microsoft Sans Serif", 13))
 label17.place(x=889, y=255)
 
-
 # Creating and placing entries
 billNum = Entry(window, bd=0, width=12 , font=("Franklin Gothic Medium", 13))
 billNum.place(x=180, y=92)
@@ -545,8 +564,9 @@ subCategory.place(x=65, y=260)
 subCategory['values'] = sub_category_input()
 
 product = ttk.Combobox(window, width=60)
-product.place(x=65, y=325)
 product['values'] = product_input()
+product.bind('<<ComboboxSelected>>', show_quantity)
+product.place(x=65, y=325)
 
 
 # Creating frame for displaying bill
