@@ -59,18 +59,18 @@ def main_window():
 
                 c = conn.cursor()
 
-                c.execute('''CREATE TABLE second(
-                product text,
-                category text,
-                sub_category text,
-                In_stock integer,
-                customer_name text,
-                contact_number text,
-                bill_number text,
-                selling_price integer,
-                cost_price integer,
-                vendor_no text
-                )''')
+                #c.execute('''CREATE TABLE second(
+                #product text,
+                #category text,
+                #sub_category text,
+                #In_stock integer,
+                #customer_name text,
+                #contact_number text,
+                #bill_number text,
+                #selling_price integer,
+                #cost_price integer,
+                #vendor_no text
+                #)''')
 
                 def search_it():
                     if Ent1.get() != '':
@@ -134,7 +134,7 @@ def main_window():
                         conn.commit()
 
                         conn.close()
-                         else:
+                    else:
                         messagebox.showwarning('Empty field', 'Please Enter the number in the field')
 
                 def inven_update():
@@ -377,6 +377,11 @@ def main_window():
                     en7a = Entry(inven, bg='white', bd=0, fg='black', font=font1, width=34)
                     en7a.place(x=620, y=422)
 
+                def exito():
+                    root.destroy()
+                    root1.destroy()
+
+
                 img = ImageTk.PhotoImage(Image.open('images/Inventory.jpg'))
                 lable = Label(root, image=img).place(x=0, y=0)
 
@@ -388,7 +393,7 @@ def main_window():
                 btn1 = Button(root, text='Logout', height=1, width=6, bg='#007884', activebackground='#007884', bd=0,
                               font=font1,
                               cursor='hand2',
-                              fg='white').place(x=70, y=96)
+                              fg='white', command=exito).place(x=70, y=96)
 
                 btn2 = Button(root, text='Search', height=1, width=7, bg='#007884', activebackground='#007884', bd=0,
                               font=font1,
@@ -412,7 +417,7 @@ def main_window():
 
                 btn6 = Button(root, text='Exit', height=1, width=7, bg='#007884', bd=0, activebackground='#007884',
                               font=font1,
-                              cursor='hand2', fg='white').place(
+                              cursor='hand2', fg='white', command=root.destroy).place(
                     x=158, y=554)
 
                 wrapper1 = LabelFrame(root, height=800, width=1000, bd=0)
@@ -904,7 +909,7 @@ def main_window():
                         messagebox.showwarning('Empty Field', 'Please enter in the search field')
 
                 # Define image as background
-                bg1 = ImageTk.PhotoImage(file="images/Employee_mgt.png")
+                bg1 = ImageTk.PhotoImage(file="images/emp_mngt.png")
                 bg_label = Label(root, image=bg1)
                 bg_label.place(x=0, y=0)
 
@@ -928,6 +933,12 @@ def main_window():
                 entry_font = ('Poppins', 12)
                 searchbox = Entry(root, borderwidth=0, font=entry_font)
                 searchbox.place(x=93, y=160)
+
+
+                def exitt3():
+                    root.destroy()
+                    root1.destroy()
+
 
                 # Create buttons
                 search_bt = Button(root, text="Search", bg="#007884", activebackground="#007884",
@@ -955,14 +966,14 @@ def main_window():
                 delete_bt.place(x=140, y=440)
 
                 exit_bt = Button(root, text="Exit", bg="#007884", activebackground="#007884",
-                                 fg="White", activeforeground="White", borderwidth=0, command=root.quit, cursor="hand2")
+                                 fg="White", activeforeground="White", borderwidth=0, command=root.destroy, cursor="hand2")
                 exit_bt.configure(font="-family {Poppins} -size 14")
                 exit_bt.place(x=200, y=540)
 
                 logout_bt = Button(root, text="Log Out", fg="White", activeforeground="White",
                                    bg="#007884",
                                    activebackground="#007884",
-                                   borderwidth=0, cursor="hand2")
+                                   borderwidth=0, cursor="hand2", command=exitt3)
                 logout_bt.configure(font="-family {Poppins} -size 14")
                 logout_bt.place(x=1046, y=607)
 
@@ -1254,6 +1265,11 @@ def main_window():
                     conn.commit()
                     conn.close()
 
+                def exitt1():
+                    root.destroy()
+                    root1.destroy()
+
+
                 # Creating and placing buttons
                 button1 = Button(root, text="Search", font=("Poppins", 14, "bold"), border=0, bg="#007884", fg="white",
                                  activebackground="#007884", activeforeground="#f1f1e6", cursor="hand2", command=search)
@@ -1265,11 +1281,11 @@ def main_window():
                 button2.place(x=160, y=315)
 
                 button3 = Button(root, text="Exit", font=("Poppins", 14, "bold"), border=0, bg="#007884", fg="white",
-                                 activebackground="#007884", activeforeground="#f1f1e6", cursor="hand2")
+                                 activebackground="#007884", activeforeground="#f1f1e6", cursor="hand2",command=root.destroy)
                 button3.place(x=205, y=520)
 
                 button4 = Button(root, text="LOGOUT", font=("Poppins", 13, "bold"), border=0, bg="#007884", fg="white",
-                                 activebackground="#007884", activeforeground="#f1f1e6", cursor="hand2")
+                                 activebackground="#007884", activeforeground="#f1f1e6", cursor="hand2",command= exitt1)
                 button4.place(x=1040, y=610)
 
                 # Function for creating and placing label
@@ -1346,7 +1362,10 @@ def main_window():
 
                 mainloop()
 
-            imgeee = ImageTk.PhotoImage(Image.open('C:/Users/dell/Desktop/finback1-01.png'))
+            def exxit():
+                root1.destroy()
+
+            imgeee = ImageTk.PhotoImage(Image.open('images/dashboard.png'))
             labloooo = Label(root1, image=imgeee).place(x=0, y=0)
 
             btn1 = Button(root1, text='click-me', height=2, width=8, bg='#007884', fg='white', bd=0,
@@ -1357,6 +1376,9 @@ def main_window():
 
             btn3 = Button(root1, text='Don\'t_._me', height=2, width=8, bg='#007884', fg='white', bd=0,
                           activebackground='#007884', command=invoiceee).place(x=576, y=512)
+
+            btn4 = Button(root1, text='Log-out', height=1, width=8, bg='#007884', fg='white',activebackground='#007884',
+                          command= exxit, bd=0).place(x=1074, y=616)
 
             root1.mainloop()
         else:
@@ -1520,6 +1542,8 @@ def main_window():
                         global rowww
                         global index_increment
                         global index_increment_copy
+                        global product_list
+                        global quantity_list
                         global i
 
                         index_increment_copy = 0
@@ -1625,8 +1649,7 @@ def main_window():
 
                     # Function that generates bill and store bill data in database
                     def generate():
-                        global product_list
-                        global quantity_list
+
                         global bill_label_1
                         global bill_label_2
                         global bill_label_3
@@ -1641,29 +1664,30 @@ def main_window():
                             messagebox.showerror("Incomplete Information!!", "Please fill up all the details!")
 
                         else:
-                            connect = sqlite3.connect('billDatabase.db')
-                            cursor = connect.cursor()
-
-                            cursor.execute("SELECT * FROM bill")
-                            bill_records = cursor.fetchall()
-                            bill_number = int(bill_records[-1][2]) + 1
-
-                            connect.close()
-
                             conn = sqlite3.connect('billDatabase.db')
                             c = conn.cursor()
+
+                            c.execute("SELECT * FROM bill")
+                            bill_records = c.fetchall()
+                            bill_number = int(bill_records[-1][2]) + 1
+
+
+                            #connect.close()
+
+                            #conn = sqlite3.connect('billDatabase.db')
+                            #c = conn.cursor()
 
                             c.execute(
                                 "INSERT INTO bill VALUES (:customer_name, :contact_num, :bill_num, :date, :product, :quantity, :total)",
 
                                 {
-                                    'customer_name': customerName.get(),
-                                    'contact_num': contactNum.get(),
-                                    'bill_num': bill_number,
-                                    'date': current_date,
-                                    'product': product_list_string,
-                                    'quantity': quantity_list_string,
-                                    'total': sum,
+                                    'customer_name': '',
+                                    'contact_num': '',
+                                    'bill_num': 0,
+                                    'date': '',
+                                    'product': '',
+                                    'quantity': '',
+                                    'total': '',
                                 })
                             c.execute("SELECT *,oid FROM bill")
 
@@ -1804,6 +1828,8 @@ def main_window():
                         bill_label3.place_forget()
                         bill_label4.place_forget()
 
+
+
                     # Creating and placing buttons
                     btn1 = Button(window, text="Search", font=("Poppins", 13, "bold"), border=0, bg="#007884",
                                   fg="white", activebackground="#007884", activeforeground="#f1f1e6", cursor="hand2",
@@ -1811,7 +1837,7 @@ def main_window():
                     btn1.place(x=328, y=86)
 
                     btn2 = Button(window, text="LOGOUT", font=("Poppins", 12, "bold"), border=0, bg="#007884",
-                                  fg="white", activebackground="#007884", activeforeground="#f1f1e6", cursor="hand2")
+                                  fg="white", activebackground="#007884", activeforeground="#f1f1e6", cursor="hand2", command=window.destroy)
                     btn2.place(x=1067, y=604)
 
                     btn3 = Button(window, text="Remove", font=("Poppins", 13, "bold"), border=0, bg="#007884",
@@ -1845,7 +1871,7 @@ def main_window():
                     btn8.place(x=302, y=538)
 
                     btn9 = Button(window, text="Exit", font=("Poppins", 13, "bold"), border=0, bg="#007884", fg="white",
-                                  activebackground="#007884", activeforeground="#f1f1e6", cursor="hand2")
+                                  activebackground="#007884", activeforeground="#f1f1e6", cursor="hand2", command=window.destroy)
                     btn9.place(x=416, y=538)
 
                     # Creating and placing labels
@@ -1967,8 +1993,6 @@ def main_window():
 
 
 
-
-            conn.commit()
 
             conn.close()
 
