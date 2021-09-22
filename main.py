@@ -12,7 +12,7 @@ from datetime import datetime
 
 splash=Tk()
 splash.title("Merchandise")
-splash.geometry("1193x671")
+splash.geometry("1193x671+145+50")
 splash.overrideredirect(True)
 bg = PhotoImage(file ="images/Untitledd.png")
 splash_label = Label(splash, image= bg)
@@ -26,8 +26,11 @@ def main_window():
 
     splash.destroy()
     root = Tk()
-    root.title("merchandise")
-    root.geometry("1193x671")
+    root.title("Login")
+    root.geometry("1193x671+145+50")
+    root.resizable(0,0)
+    root.iconbitmap('images/Icon.ico')
+
 
 
 
@@ -40,12 +43,16 @@ def main_window():
         if entry1.get() == 'Admin' and entry2.get()=='123':
             root1 = Toplevel()
 
-            root1.geometry('1191x671')
+            root1.geometry('1191x671+145+50')
+            root1.title('Dashboard')
+            root1.resizable(0,0)
+            root1.iconbitmap('images/Icon.ico')
 
             def inventorryy():
                 root = Toplevel()
-                root.geometry('1193x671')
-                root.title('Just checking')
+                root.geometry('1193x671+145+50')
+                root.title('Inventory')
+                root.iconbitmap('images/Icon.ico')
                 root.resizable(False, False)
                 '''
                 fontt = Font(
@@ -147,7 +154,8 @@ def main_window():
 
                         global imgg
                         inven = Toplevel()
-                        inven.geometry('1193x671')
+                        inven.geometry('1193x671+145+50')
+                        inven.iconbitmap('images/Icon.ico')
                         inven.resizable(False, False)
 
                         def clear_all():
@@ -280,7 +288,8 @@ def main_window():
                 def inven_add():
                     global imge
                     inven = Toplevel()
-                    inven.geometry('1193x671')
+                    inven.geometry('1193x671+145+50')
+                    inven.iconbitmap('images/Icon.ico')
                     inven.resizable(False, False)
 
                     def clear_all():
@@ -385,6 +394,11 @@ def main_window():
                 def exito():
                     root.destroy()
                     root1.destroy()
+                    global entry1, entry2
+                    entry1.delete(0,END)
+                    entry2.delete(0, END)
+                    entry1.focus()
+
 
 
                 img = ImageTk.PhotoImage(Image.open('images/Inventory.jpg'))
@@ -476,8 +490,9 @@ def main_window():
 
             def employeee():
                 root = Toplevel()
-                root.geometry("1191x670")
+                root.geometry("1191x670+145+50")
                 root.title("Employee Management")
+                root.iconbitmap('images/Icon.ico')
                 root.resizable(False, False)
 
                 # -------------DATABASE----------------
@@ -539,7 +554,8 @@ def main_window():
                     if searchbox.get() != '':
                         editor = Toplevel()
                         editor.title("Update Employee")
-                        editor.geometry("1191x670")
+                        editor.geometry("1191x670+145+50")
+                        editor.iconbitmap('images/Icon.ico')
                         editor.resizable(False, False)
 
                         def edit():
@@ -721,7 +737,8 @@ def main_window():
                     global bg
                     top = Toplevel()
                     top.title("Add Employee")
-                    top.geometry("1191x670")
+                    top.geometry("1191x670+145+50")
+                    top.iconbitmap('images/Icon.ico')
                     top.resizable(False, False)
 
                     # Create submit button for databases
@@ -943,6 +960,10 @@ def main_window():
                 def exitt3():
                     root.destroy()
                     root1.destroy()
+                    global entry1, entry2
+                    entry1.delete(0, END)
+                    entry2.delete(0, END)
+                    entry1.focus()
 
 
                 # Create buttons
@@ -1049,7 +1070,8 @@ def main_window():
             def invoiceee():
                 root = Toplevel()
                 root.title("Invoices")
-                root.geometry("1191x670")
+                root.geometry("1191x670+145+50")
+                root.iconbitmap('images/Icon.ico')
                 root.resizable(0, 0)
 
                 # Background Image setup
@@ -1158,6 +1180,7 @@ def main_window():
                         new = Toplevel(root)
                         new.geometry("645x445")
                         new.resizable(0, 0)
+                        new.iconbitmap('images/Icon.ico')
                         new.title("Bill Details")
 
                         # Setting up background image for new window
@@ -1274,6 +1297,11 @@ def main_window():
                     root.destroy()
                     root1.destroy()
 
+                    global entry1, entry2
+                    entry1.delete(0, END)
+                    entry2.delete(0, END)
+                    entry1.focus()
+
 
                 # Creating and placing buttons
                 button1 = Button(root, text="Search", font=("Poppins", 14, "bold"), border=0, bg="#007884", fg="white",
@@ -1369,21 +1397,30 @@ def main_window():
 
             def exxit():
                 root1.destroy()
+                global entry1, entry2
+                entry1.delete(0, END)
+                entry2.delete(0, END)
+                entry1.focus()
+
+
+
+
 
             imgeee = ImageTk.PhotoImage(Image.open('images/dashboard.png'))
             labloooo = Label(root1, image=imgeee).place(x=0, y=0)
 
-            btn1 = Button(root1, text='click-me', height=2, width=8, bg='#007884', fg='white', bd=0,
-                          activebackground='#007884', command=inventorryy).place(x=464, y=286)
 
-            btn2 = Button(root1, text='click-here', height=2, width=8, bg='#007884', fg='white', bd=0,
-                          activebackground='#007884', command=employeee).place(x=683, y=286)
 
-            btn3 = Button(root1, text='Don\'t_._me', height=2, width=8, bg='#007884', fg='white', bd=0,
-                          activebackground='#007884', command=invoiceee).place(x=576, y=512)
+            btn1 = Button(root1, text='Inventory', width=8, bg='#007884', fg='white', bd=0, font=("Poppins", 15),
+                          activebackground='#007884', command=inventorryy).place(x=450, y=280)
+            btn2 = Button(root1, text='Employee', width=8, bg='#007884', fg='white', bd=0, font=("Poppins", 15),
+                          activebackground='#007884', command=employeee).place(x=677, y=280)
+            btn3 = Button(root1, text='Invoices', width=8, bg='#007884', fg='white', bd=0, font=("Poppins", 15),
+                          activebackground='#007884', command=invoiceee).place(x=566, y=510)
 
             btn4 = Button(root1, text='Log-out', height=1, width=8, bg='#007884', fg='white',activebackground='#007884',
-                          command= exxit, bd=0).place(x=1074, y=616)
+                          command= exxit, bd=0, font=Font(size=13)).place(x=1068, y=612)
+
 
             root1.mainloop()
         else:
@@ -1400,8 +1437,9 @@ def main_window():
                 if record[0] == entry1.get() and record[5] == entry2.get():
                     In = True
                     window = Toplevel()
-                    window.title("Employee")
-                    window.geometry("1191x670")
+                    window.title("Billing")
+                    window.geometry("1191x670+145+50")
+                    window.iconbitmap('images/Icon.ico')
                     window.resizable(0, 0)
 
                     # Background Image
@@ -1839,6 +1877,14 @@ def main_window():
                                                  font=("Poppins", 13, "bold"), padx=16)
                                 in_stock.place(x=52, y=410)
 
+
+                    def exittt():
+                        window.destroy()
+                        global entry1, entry2
+                        entry1.delete(0, END)
+                        entry2.delete(0, END)
+                        entry1.focus()
+
                     # Creating and placing buttons
                     btn1 = Button(window, text="Search", font=("Poppins", 13, "bold"), border=0, bg="#007884",
                                   fg="white", activebackground="#007884", activeforeground="#f1f1e6", cursor="hand2",
@@ -1846,7 +1892,7 @@ def main_window():
                     btn1.place(x=328, y=86)
 
                     btn2 = Button(window, text="LOGOUT", font=("Poppins", 12, "bold"), border=0, bg="#007884",
-                                  fg="white", activebackground="#007884", activeforeground="#f1f1e6", cursor="hand2", command=window.destroy)
+                                  fg="white", activebackground="#007884", activeforeground="#f1f1e6", cursor="hand2", command=exittt)
                     btn2.place(x=1067, y=604)
 
                     btn3 = Button(window, text="Remove", font=("Poppins", 13, "bold"), border=0, bg="#007884",
@@ -1880,7 +1926,7 @@ def main_window():
                     btn8.place(x=302, y=538)
 
                     btn9 = Button(window, text="Exit", font=("Poppins", 13, "bold"), border=0, bg="#007884", fg="white",
-                                  activebackground="#007884", activeforeground="#f1f1e6", cursor="hand2", command=window.destroy)
+                                  activebackground="#007884", activeforeground="#f1f1e6", cursor="hand2", command=exittt)
                     btn9.place(x=416, y=538)
 
                     # Creating and placing labels
@@ -2009,22 +2055,23 @@ def main_window():
     fg = PhotoImage(file="images/login.png")
     main_label = Label(root,image=fg)
     main_label.pack()
+    global entry1, entry2
 
-    entry1 = Entry(root, width=46, border=0 ,bg="#30355A")
-    #e1.config(font=l)
-    entry1.place(x=520,y=280, height=35)
+    entry1 = Entry(root, font=("Poppins", 13), width=30, border=0, bg="#30355A", fg="White")
+    entry1.place(x=525, y=280, height=35)
 
 
-    entry2 = Entry(root, width=46, border=0 ,show='*',bg="#30355A")
-    #e2.config(font=l)
-    entry2.place(x=520,y=355, height=35)
+    entry2 = Entry(root, font=("Poppins", 13), width=30, border=0, show='*', bg="#30355A", fg="white")
+    entry2.place(x=525, y=355, height=35)
 
 
     Frame(root, width=278, height=2, bg='#141414').place(x=520, y=393)
     Frame(root, width=278, height=2, bg='#141414').place(x=520, y=320)
 
-    button_log = Button(root, text="login", width= 28,border=0, bg="#051C36", command=hi)
-    button_log.place(x=540, y=511, height=49)
+    button_log = Button(root, text="Login", width=28, border=0, fg="white", bg="#051C36", activebackground="#051C36",
+                        activeforeground="white", command=hi)
+    button_log.configure(font="-family {Poppins} -size 14")
+    button_log.place(x=490, y=511, height=49)
 
 
 
