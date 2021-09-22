@@ -32,6 +32,11 @@ def main_window():
 
 
     def hi():
+        global roww
+        global index_increment
+        global index
+
+
         if entry1.get() == 'Admin' and entry2.get()=='123':
             root1 = Toplevel()
 
@@ -1390,6 +1395,7 @@ def main_window():
 
             records = c.fetchall()
             In = False
+
             for record in records:
                 if record[0] == entry1.get() and record[5] == entry2.get():
                     In = True
@@ -1401,19 +1407,6 @@ def main_window():
                     # Background Image
                     bg = ImageTk.PhotoImage(file="images/employeeWindow.png")
                     bg_image = Label(window, image=bg).place(x=0, y=0)
-
-                    # Displaying clock on screen
-                    def clock():
-                        hour = time.strftime("%H")
-                        minute = time.strftime("%M")
-                        second = time.strftime("%S")
-
-                        time_label.config(text=hour + ":" + minute + ":" + second)
-                        time_label.after(1000, clock)
-
-                    time_label = Label(window, text="", font=("DS-digital", 25, "bold"), bg="white")
-                    time_label.place(x=1030, y=30)
-                    clock()
 
                     # Storing current date in a variable
                     current_date = datetime.today().strftime('%Y-%m-%d')
@@ -1610,7 +1603,6 @@ def main_window():
                     # Function that calculates and shows total price
                     def total():
                         global sum
-                        global index_increment
 
                         conn = sqlite3.connect('database.db')
                         c = conn.cursor()
@@ -1649,7 +1641,6 @@ def main_window():
 
                     # Function that generates bill and store bill data in database
                     def generate():
-
                         global bill_label_1
                         global bill_label_2
                         global bill_label_3
@@ -1664,30 +1655,29 @@ def main_window():
                             messagebox.showerror("Incomplete Information!!", "Please fill up all the details!")
 
                         else:
-                            conn = sqlite3.connect('billDatabase.db')
-                            c = conn.cursor()
+                            connect = sqlite3.connect('billDatabase.db')
+                            cursor = connect.cursor()
 
-                            c.execute("SELECT * FROM bill")
-                            bill_records = c.fetchall()
+                            cursor.execute("SELECT * FROM bill")
+                            bill_records = cursor.fetchall()
                             bill_number = int(bill_records[-1][2]) + 1
 
+                            connect.close()
 
-                            #connect.close()
-
-                            #conn = sqlite3.connect('billDatabase.db')
-                            #c = conn.cursor()
+                            conn = sqlite3.connect('billDatabase.db')
+                            c = conn.cursor()
 
                             c.execute(
                                 "INSERT INTO bill VALUES (:customer_name, :contact_num, :bill_num, :date, :product, :quantity, :total)",
 
                                 {
-                                    'customer_name': '',
-                                    'contact_num': '',
-                                    'bill_num': 0,
-                                    'date': '',
-                                    'product': '',
-                                    'quantity': '',
-                                    'total': '',
+                                    'customer_name': customerName.get(),
+                                    'contact_num': contactNum.get(),
+                                    'bill_num': bill_number,
+                                    'date': current_date,
+                                    'product': product_list_string,
+                                    'quantity': quantity_list_string,
+                                    'total': sum,
                                 })
                             c.execute("SELECT *,oid FROM bill")
 
@@ -1703,9 +1693,9 @@ def main_window():
                             bill_label_3 = Label(window, text=current_date, font=("Microsoft Sans Serif", 13),
                                                  bg="white", fg="#0D1C30")
                             bill_label_3.place(x=995, y=230)
-                            bill_label_4 = Label(window, text=bill_number, font=("Microsoft Sans Serif", 13),
-                                                 bg="white", fg="#0D1C30")
-                            bill_label_4.place(x=995, y=255)
+                            # bill_label_4 = Label(window, text=bill_number, font=("Microsoft Sans Serif", 13),
+                            #                      bg="white", fg="#0D1C30")
+                            # bill_label_4.place(x=995, y=255)
 
                             messagebox.showinfo("Bill Generated Successfully!",
                                                 "Bill has been added to the database successfully.")
@@ -1807,6 +1797,9 @@ def main_window():
                         subCategory.delete(0, END)
                         product.delete(0, END)
 
+                        clear_in_stock = Label(window, text=f"                             ", bg="white", fg="brown", font=("Poppins", 13, "bold"), padx=16)
+                        clear_in_stock.place(x=52, y=410)
+
                     # Function that clears 'Customer Details' frame and bill
                     def clear_bill():
                         billNum.delete(0, END)
@@ -1828,7 +1821,23 @@ def main_window():
                         bill_label3.place_forget()
                         bill_label4.place_forget()
 
+                    def show_quantity(event):
+                        global in_stock
 
+                        connect = sqlite3.connect("database.db")
+                        cursor = connect.cursor()
+
+                        cursor.execute("SELECT * FROM second")
+
+                        inventory_records = cursor.fetchall()
+
+                        current = product.get()
+
+                        for record in inventory_records:
+                            if record[0] == current:
+                                in_stock = Label(window, text=f"In Stock: {record[3]}", bg="white", fg="brown",
+                                                 font=("Poppins", 13, "bold"), padx=16)
+                                in_stock.place(x=52, y=410)
 
                     # Creating and placing buttons
                     btn1 = Button(window, text="Search", font=("Poppins", 13, "bold"), border=0, bg="#007884",
@@ -1953,6 +1962,7 @@ def main_window():
 
                     product = ttk.Combobox(window, width=60)
                     product.place(x=65, y=325)
+                    product.bind('<<ComboboxSelected>>', show_quantity)
                     product['values'] = product_input()
 
                     # Creating frame for displaying bill
