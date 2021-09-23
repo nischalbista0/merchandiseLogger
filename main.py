@@ -8,8 +8,6 @@ import ast
 from tkinter.font import Font
 from datetime import datetime
 
-
-
 splash=Tk()
 splash.title("Merchandise")
 splash.geometry("1193x671+145+50")
@@ -20,9 +18,7 @@ splash_label.pack()
 
 
 def main_window():
-
     global fg
-
 
     splash.destroy()
     root = Tk()
@@ -32,15 +28,12 @@ def main_window():
     root.iconbitmap('images/Icon.ico')
 
 
-
-
     def hi():
         global roww
         global index_increment
         global index
 
-
-        if entry1.get() == 'Admin' and entry2.get()=='123':
+        if entry1.get() == 'Admin' and entry2.get() == '123':
             root1 = Toplevel()
 
             root1.geometry('1191x671+145+50')
@@ -48,23 +41,17 @@ def main_window():
             root1.resizable(0,0)
             root1.iconbitmap('images/Icon.ico')
 
+            # ------------------------------------- Inventory ----------------------------------------------------------
             def inventorryy():
                 root = Toplevel()
                 root.geometry('1193x671+145+50')
                 root.title('Inventory')
                 root.iconbitmap('images/Icon.ico')
                 root.resizable(False, False)
-                '''
-                fontt = Font(
-                    family='Poppins',
-                    size=10,
-                    # weight='bold'
-                )
-                '''
+
                 font1 = Font(
                     family='Poppins',
                     size=14,
-                    # weight='bold'
                 )
 
                 conn = sqlite3.connect('database.db')
@@ -207,7 +194,7 @@ def main_window():
                                 c.execute("SELECT *,oid FROM second")
 
                                 records = c.fetchall()
-                                # print(records)
+
                                 roww = 1
                                 for record in records:
                                     Label(myframe, text=record[10], bg='white', width=10).grid(row=roww, column=0)
@@ -337,7 +324,7 @@ def main_window():
                             c.execute("SELECT *,oid FROM second")
 
                             records = c.fetchall()
-                            # print(records)
+
                             roww = 1
                             for record in records:
                                 Label(myframe, text=record[10], bg='white', width=10).grid(row=roww, column=0)
@@ -398,8 +385,6 @@ def main_window():
                     entry1.delete(0,END)
                     entry2.delete(0, END)
                     entry1.focus()
-
-
 
                 img = ImageTk.PhotoImage(Image.open('images/Inventory.jpg'))
                 lable = Label(root, image=img).place(x=0, y=0)
@@ -471,7 +456,7 @@ def main_window():
                 c.execute("SELECT *,oid FROM second")
 
                 records = c.fetchall()
-                # print(records)
+
                 roww = 1
 
                 for record in records:
@@ -488,6 +473,7 @@ def main_window():
                 conn.close()
                 root.mainloop()
 
+            # ------------------------------------- Employee ----------------------------------------------------------
             def employeee():
                 root = Toplevel()
                 root.geometry("1191x670+145+50")
@@ -524,7 +510,7 @@ def main_window():
                         c = conn.cursor()
                         # query of the database
                         c.execute("SELECT * FROM addresses WHERE oid=" + searchbox.get())
-                        # print(records)
+
                         records = c.fetchall()
 
                         # Loop through the results
@@ -590,7 +576,6 @@ def main_window():
                             # query of the database
                             c.execute("SELECT *, oid FROM addresses")
 
-                            # print(records)
                             records = c.fetchall()
 
                             # Loop through the results
@@ -767,7 +752,6 @@ def main_window():
                             # query of the database
                             c.execute("SELECT *, oid FROM addresses")
 
-                            # print(records)
                             records = c.fetchall()
 
                             # Loop through the results
@@ -895,7 +879,6 @@ def main_window():
 
                         # delete a record
                         c.execute("DELETE from addresses WHERE oid = " + searchbox.get())
-                        print('Deleted Successfully')
 
                         # query of the database
                         c.execute("SELECT *, oid FROM addresses")
@@ -1067,6 +1050,8 @@ def main_window():
 
                 root.mainloop()
 
+
+            # ------------------------------------- Invoices ----------------------------------------------------------
             def invoiceee():
                 root = Toplevel()
                 root.title("Invoices")
@@ -1161,7 +1146,6 @@ def main_window():
                     cursor.execute("SELECT * FROM second")
 
                     inventory_records = cursor.fetchall()
-                    print(inventory_records)
 
                     products_and_cp = {}
                     for record in inventory_records:
@@ -1173,7 +1157,6 @@ def main_window():
                     c.execute("SELECT * FROM bill")
 
                     bill_records = c.fetchall()
-                    print(bill_records)
 
                     bill_number = int(bill_records[-1][2]) + 1
                     if int(billNumber.get()) > 0 and int(billNumber.get()) <= bill_records[-1][2]:
@@ -1231,6 +1214,15 @@ def main_window():
 
                         bill_label_7 = Label(new, text="Bill Number :", bg="white", font=("Microsoft Sans Serif", 13))
                         bill_label_7.place(x=400, y=105)
+
+                        bill_label_8 = Label(new, text="The Slytherin Store", bg="white", font=("Microsoft Sans Serif", 15))
+                        bill_label_8.place(x=255, y=5)
+
+                        bill_label_9 = Label(new, text="Kirtipur-4, Kathmandu, Nepal", bg="white", font=("Microsoft Sans Serif", 13))
+                        bill_label_9.place(x=235, y=33)
+
+                        bill_label_10 = Label(new, text="Ph: 01-43344990", bg="white", font=("Microsoft Sans Serif", 13))
+                        bill_label_10.place(x=280, y=55)
 
                         # Displaying customer name
                         for billNum in bill_records:
@@ -1412,14 +1404,14 @@ def main_window():
 
 
             btn1 = Button(root1, text='Inventory', width=8, bg='#007884', fg='white', bd=0, font=("Poppins", 15),
-                          activebackground='#007884', command=inventorryy).place(x=450, y=280)
+                          activebackground='#007884', cursor="hand2", command=inventorryy).place(x=450, y=280)
             btn2 = Button(root1, text='Employee', width=8, bg='#007884', fg='white', bd=0, font=("Poppins", 15),
-                          activebackground='#007884', command=employeee).place(x=677, y=280)
+                          activebackground='#007884', cursor="hand2", command=employeee).place(x=677, y=280)
             btn3 = Button(root1, text='Invoices', width=8, bg='#007884', fg='white', bd=0, font=("Poppins", 15),
-                          activebackground='#007884', command=invoiceee).place(x=566, y=510)
+                          activebackground='#007884', cursor="hand2", command=invoiceee).place(x=566, y=510)
 
-            btn4 = Button(root1, text='Log-out', height=1, width=8, bg='#007884', fg='white',activebackground='#007884',
-                          command= exxit, bd=0, font=Font(size=13)).place(x=1068, y=612)
+            btn4 = Button(root1, text='Log-Out', width=8, bg='#007884', fg='white',activebackground='#007884',
+                          command= exxit, bd=0, font=("Poppins", 15), cursor="hand2").place(x=1056, y=610)
 
 
             root1.mainloop()
@@ -1622,12 +1614,10 @@ def main_window():
                             labb2.grid(row=rowww, column=2)
 
                             index_of_product = product_value.index(product_list[a])
-                            # print(index_of_product)
+
                             labb3 = Label(myFrame, text=int(quantity_list[index_increment_copy]) * int(
                                 cp_value[index_of_product]), width=6, bg="white")
                             labb3.grid(row=rowww, column=3)
-
-                            # print(int(quantity_list[index_increment_copy]) * int(cp_value[index_of_product]))
 
                             i += 1
                             index_increment_copy += 1
@@ -1859,24 +1849,6 @@ def main_window():
                         bill_label3.place_forget()
                         bill_label4.place_forget()
 
-                    def show_quantity(event):
-                        global in_stock
-
-                        connect = sqlite3.connect("database.db")
-                        cursor = connect.cursor()
-
-                        cursor.execute("SELECT * FROM second")
-
-                        inventory_records = cursor.fetchall()
-
-                        current = product.get()
-
-                        for record in inventory_records:
-                            if record[0] == current:
-                                in_stock = Label(window, text=f"In Stock: {record[3]}", bg="white", fg="brown",
-                                                 font=("Poppins", 13, "bold"), padx=16)
-                                in_stock.place(x=52, y=410)
-
 
                     def exittt():
                         window.destroy()
@@ -1983,6 +1955,15 @@ def main_window():
                     label17 = Label(window, text="Bill Number :", bg="white", font=("Microsoft Sans Serif", 13))
                     label17.place(x=889, y=255)
 
+                    label18 = Label(window, text="The Slytherin Store", bg="white", font=("Microsoft Sans Serif", 15))
+                    label18.place(x=740, y=152)
+
+                    label19 = Label(window, text="Kirtipur-4, Kathmandu, Nepal", bg="white", font=("Microsoft Sans Serif", 13))
+                    label19.place(x=720, y=180)
+
+                    label20 = Label(window, text="Ph: 01-43344990", bg="white", font=("Microsoft Sans Serif", 13))
+                    label20.place(x=760, y=205)
+
                     # Creating and placing entries
                     billNum = Entry(window, bd=0, width=12, font=("Franklin Gothic Medium", 13))
                     billNum.place(x=180, y=92)
@@ -2008,7 +1989,6 @@ def main_window():
 
                     product = ttk.Combobox(window, width=60)
                     product.place(x=65, y=325)
-                    product.bind('<<ComboboxSelected>>', show_quantity)
                     product['values'] = product_input()
 
                     # Creating frame for displaying bill
@@ -2035,21 +2015,6 @@ def main_window():
             if In== False:
                 messagebox.showinfo('Invalid','Enter the right combination')
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             conn.close()
 
     fg = PhotoImage(file="images/login.png")
@@ -2060,38 +2025,16 @@ def main_window():
     entry1 = Entry(root, font=("Poppins", 13), width=30, border=0, bg="#30355A", fg="White")
     entry1.place(x=525, y=280, height=35)
 
-
     entry2 = Entry(root, font=("Poppins", 13), width=30, border=0, show='*', bg="#30355A", fg="white")
     entry2.place(x=525, y=355, height=35)
-
 
     Frame(root, width=278, height=2, bg='#141414').place(x=520, y=393)
     Frame(root, width=278, height=2, bg='#141414').place(x=520, y=320)
 
-    button_log = Button(root, text="Login", width=28, border=0, fg="white", bg="#051C36", activebackground="#051C36",
-                        activeforeground="white", command=hi)
+    button_log = Button(root, text="Login", width=28, border=0, fg="white", bg="#051C36", activebackground="#051C36", activeforeground="white", cursor="hand2", command=hi)
     button_log.configure(font="-family {Poppins} -size 14")
     button_log.place(x=490, y=511, height=49)
 
 
-
-splash.after(1000, main_window)
-
-'''
-def hi():
-    global entry1
-    global entry2
-    global root
-    uname= entry1.get()
-    password=entry2.get()
-    if (uname == "" and password == ""):
-        messagebox.showinfo("", "Blank Not allowed")
-    elif (uname == "Admin" and password == "123"):
-        messagebox.showinfo("", "Login Success")
-        root.destroy()
-    else:
-        messagebox.showinfo("", "Incorrect Username and Password")
-        
-        '''
-
-splash.mainloop()                    
+splash.after(800, main_window)
+splash.mainloop()
