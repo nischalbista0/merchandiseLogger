@@ -737,21 +737,6 @@ def main_window():
                     bg_label = Label(top, image=bg)
                     bg_label.place(x=0, y=0)
 
-                    # Create clock for the current time
-                    def clock():
-                        hour = time.strftime("%I")
-                        minute = time.strftime("%M")
-                        second = time.strftime("%S")
-                        disp_time.config(text=hour + ":" + minute + ":" + second)
-                        disp_time.after(1000, clock)
-
-                    def update():
-                        disp_time.config(1000, clock)
-
-                    disp_time = Label(top, text="", font=("Arial", 20), bg="white", fg="black")
-                    disp_time.place(x=985, y=45)
-
-                    clock()
 
                     # Create labels
                     title = Label(top, text="Add Employee", fg="Black", bg="White", font=('Helvetica', 20, 'bold'))
