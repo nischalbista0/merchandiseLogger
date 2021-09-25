@@ -1046,6 +1046,9 @@ def main_window():
                         conn.commit()
                         conn.close()
 
+                    else:
+                        messagebox.showinfo("Bill number not found", "Please enter valid bill number!", parent=root)
+
                 # Function that displays searched bill in new window
                 def open():
                     connect = sqlite3.connect("database.db")
