@@ -28,7 +28,7 @@ def main_window():
     root.iconbitmap('images/Icon.ico')
 
 
-    def hi():
+    def login_window():
         global roww
         global index_increment
         global index
@@ -93,8 +93,10 @@ def main_window():
                         conn.commit()
 
                         conn.close()
+
                     else:
-                        messagebox.showwarning('Empty Field', 'Please enter in the search field')
+                        messagebox.showwarning('Empty Field', 'Please enter in the search field', parent=root)
+
 
                 def deletee():
                     if Ent1.get() != '':
@@ -134,7 +136,7 @@ def main_window():
 
                         conn.close()
                     else:
-                        messagebox.showwarning('Empty field', 'Please Enter the number in the field')
+                        messagebox.showwarning('Empty field', 'Please Enter the number in the field', parent=root)
 
                 def inven_update():
                     if Ent1.get() != '':
@@ -152,7 +154,6 @@ def main_window():
                                 i.delete(0, END)
 
                         def upd_product():
-
                             if en1.get() != '' and en2.get() != '' and en3.get() != '' and en4.get() != '' and en5.get() != '' and en6.get() != '' and en7.get() != '':
 
                                 conn = sqlite3.connect('database.db')
@@ -186,7 +187,6 @@ def main_window():
                                     'c_p': en6.get(),
                                     'vendor': en7.get(),
                                     'oid': ddata
-
                                 })
 
                                 inven.destroy()
@@ -209,8 +209,9 @@ def main_window():
                                 conn.commit()
 
                                 conn.close()
+
                             else:
-                                messagebox.showwarning('Empty field', 'Please fill all Entries')
+                                messagebox.showwarning('Empty field', 'Please fill all Entries', parent=inven)
 
                         conn = sqlite3.connect('database.db')
 
@@ -236,7 +237,6 @@ def main_window():
                         lab7 = Label(inven, text='Vendor Phone No.', bd=0, bg='white', font=font1).place(x=620, y=392)
 
                         # Entries for update product
-
                         en1 = Entry(inven, bg='white', bd=0, fg='black', font=font1, width=50)
                         en1.place(x=145, y=217)
                         en2 = Entry(inven, bg='white', bd=0, fg='black', font=font1, width=36)
@@ -251,6 +251,7 @@ def main_window():
                         en6.place(x=620, y=358)
                         en7 = Entry(inven, bg='white', bd=0, fg='black', font=font1, width=34)
                         en7.place(x=620, y=422)
+
                         global ddata
                         ddata = Ent1.get()
 
@@ -269,10 +270,12 @@ def main_window():
                         conn.commit()
 
                         conn.close()
+
                     else:
-                        messagebox.showwarning('Empty Field', 'Please Enter a number in the field')
+                        messagebox.showwarning('Empty Field', 'Please Enter a number in the field', parent=root)
 
                 def inven_add():
+                    global inven
                     global imge
                     inven = Toplevel()
                     inven.geometry('1193x671+145+50')
@@ -292,19 +295,6 @@ def main_window():
 
                             c = conn.cursor()
 
-                            # only for reference
-
-                            # product text,
-                            # category text,
-                            # sub_category text,
-                            # In_stock integer,
-                            # customer_name text,
-                            # contact_number text,
-                            # bill_number text,
-                            # selling_price integer,
-                            # cost_price integer,
-                            # vendor_no text
-                            
                             c.execute(
                                 "INSERT INTO second VALUES (:product, :category, :sub_category, :In_stock, :customer_name, :contact_number, :bill_number,:selling_price, :cost_price, :vendor_no)",
 
@@ -319,8 +309,8 @@ def main_window():
                                     'selling_price': en4a.get(),
                                     'cost_price': en6a.get(),
                                     'vendor_no': en7a.get()
-
                                 })
+
                             c.execute("SELECT *,oid FROM second")
 
                             records = c.fetchall()
@@ -340,8 +330,9 @@ def main_window():
 
                             conn.close()
                             inven.destroy()
+
                         else:
-                            messagebox.showwarning('Empty Field', 'Please fill all Entries')
+                            messagebox.showwarning('Empty Field', 'Please fill all Entries', parent=inven)
 
                     imge = ImageTk.PhotoImage(Image.open('images/Add_Product.jpg'))
                     labloo = Label(inven, image=imge).place(x=0, y=0)
@@ -379,12 +370,15 @@ def main_window():
                     en7a.place(x=620, y=422)
 
                 def exito():
-                    root.destroy()
-                    root1.destroy()
-                    global entry1, entry2
-                    entry1.delete(0,END)
-                    entry2.delete(0, END)
-                    entry1.focus()
+                    ans = messagebox.askyesno("Confirm Logout", "Are you sure you want to logout?", parent=root)
+                    if ans:
+                        root.destroy()
+                        root1.destroy()
+
+                        global entry1, entry2
+                        entry1.delete(0,END)
+                        entry2.delete(0, END)
+                        entry1.focus()
 
                 img = ImageTk.PhotoImage(Image.open('images/Inventory.jpg'))
                 lable = Label(root, image=img).place(x=0, y=0)
@@ -394,35 +388,13 @@ def main_window():
 
                 Ent1 = Entry(root, bd=0, width=16, bg='white', fg='black', font=font1)
                 Ent1.place(x=70, y=210)
-                btn1 = Button(root, text='Logout', height=1, width=6, bg='#007884', activebackground='#007884', bd=0,
-                              font=font1,
-                              cursor='hand2',
-                              fg='white', command=exito).place(x=70, y=96)
+                btn1 = Button(root, text='Logout', height=1, width=6, bg='#007884', activebackground='#007884', bd=0, font=font1, cursor='hand2', fg='white', command=exito).place(x=70, y=96)
+                btn2 = Button(root, text='Search', height=1, width=7, bg='#007884', activebackground='#007884', bd=0, font=font1, fg='white', cursor='hand2', command=search_it).place(x=263, y=213)
+                btn3 = Button(root, text='Add Product', height=1, width=19, bg='#007884', activebackground='#007884', fg='white', font=font1, bd=0, cursor='hand2', command=inven_add).place(x=94, y=323)
+                btn4 = Button(root, text='Update Product', height=1, width=19, bg='#007884', activebackground='#007884', fg='white', cursor='hand2', command=inven_update, font=font1, bd=0).place(x=92, y=405)
+                btn5 = Button(root, text='Delete Product', height=1, width=19, bg='#007884', activebackground='#007884', font=font1, fg='white', cursor='hand2', bd=0, command=deletee).place(x=92, y=485)
+                btn6 = Button(root, text='Exit', height=1, width=7, bg='#007884', bd=0, activebackground='#007884', font=font1, cursor='hand2', fg='white', command=root.destroy).place(x=158, y=554)
 
-                btn2 = Button(root, text='Search', height=1, width=7, bg='#007884', activebackground='#007884', bd=0,
-                              font=font1,
-                              fg='white', cursor='hand2', command=search_it).place(
-                    x=263, y=213)
-
-                btn3 = Button(root, text='Add Product', height=1, width=19, bg='#007884', activebackground='#007884',
-                              fg='white',
-                              font=font1, bd=0, cursor='hand2',
-                              command=inven_add).place(x=94, y=323)
-
-                btn4 = Button(root, text='Update Product', height=1, width=19, bg='#007884', activebackground='#007884',
-                              fg='white',
-                              cursor='hand2',
-                              command=inven_update, font=font1, bd=0).place(x=92, y=405)
-
-                btn5 = Button(root, text='Delete Product', height=1, width=19, bg='#007884', activebackground='#007884',
-                              font=font1,
-                              fg='white', cursor='hand2',
-                              bd=0, command=deletee).place(x=92, y=485)
-
-                btn6 = Button(root, text='Exit', height=1, width=7, bg='#007884', bd=0, activebackground='#007884',
-                              font=font1,
-                              cursor='hand2', fg='white', command=root.destroy).place(
-                    x=158, y=554)
 
                 wrapper1 = LabelFrame(root, height=800, width=1000, bd=0)
 
@@ -475,11 +447,11 @@ def main_window():
 
             # ------------------------------------- Employee ----------------------------------------------------------
             def employeee():
-                root = Toplevel()
-                root.geometry("1191x670+145+50")
-                root.title("Employee Management")
-                root.iconbitmap('images/Icon.ico')
-                root.resizable(False, False)
+                employee = Toplevel()
+                employee.geometry("1191x670+145+50")
+                employee.title("Employee Management")
+                employee.iconbitmap('images/Icon.ico')
+                employee.resizable(False, False)
 
                 # -------------DATABASE----------------
                 # Create a databases or connect to one
@@ -524,7 +496,7 @@ def main_window():
                             Label(myframe, text=record[5], bg='#16EEE9', width=10).grid(row=1, column=6)
 
                         # showinfo messagebox
-                        messagebox.showinfo("Great!!", "Employee ID : " + searchbox.get() + " " + "is found.")
+                        messagebox.showinfo("Great!!", "Employee ID : " + searchbox.get() + " " + "is found.", parent=employee)
 
                         searchbox.delete(0, END)
 
@@ -532,7 +504,7 @@ def main_window():
                         conn.close()
 
                     else:
-                        messagebox.showwarning('Empty Field', 'Please enter in the search field')
+                        messagebox.showwarning('Empty Field', 'Please enter in the search field', parent=employee)
 
                 # -----------------Update the existing data-----------------
                 # Create an update function
@@ -591,7 +563,7 @@ def main_window():
                                 place += 1
 
                             # showinfo messagebox
-                            messagebox.showinfo("Addresses", "Updated Successfully")
+                            messagebox.showinfo("Addresses", "Updated Successfully", parent=editor)
 
                             conn.commit()
                             conn.close()
@@ -608,25 +580,9 @@ def main_window():
                         bg_label = Label(editor, image=bgg)
                         bg_label.place(x=0, y=0)
 
-                        # Create clock for the current time
-                        def clock():
-                            hour = time.strftime("%I")
-                            minute = time.strftime("%M")
-                            second = time.strftime("%S")
-                            disp_time.config(text=hour + ":" + minute + ":" + second)
-                            disp_time.after(1000, clock)
-
-                        def update():
-                            disp_time.config(1000, clock)
-
-                        disp_time = Label(editor, text="", font=("Arial", 20), bg="white", fg="black")
-                        disp_time.place(x=985, y=45)
-
-                        clock()
 
                         # Create labels
-                        title = Label(editor, text="Update Employee", fg="Black", bg="White",
-                                      font=('Helvetica', 20, 'bold'))
+                        title = Label(editor, text="Update Employee", fg="Black", bg="White", font=('Helvetica', 20, 'bold'))
                         title.place(x=480, y=40)
 
                         name_label_editor = Label(editor, text="Employee Name", bg="#FFFFFF")
@@ -715,7 +671,7 @@ def main_window():
                         conn.close()
 
                     else:
-                        messagebox.showwarning('Empty Field', 'Please enter in the search field')
+                        messagebox.showwarning('Empty Field', 'Please enter in the search field', parent=employee)
 
                 # -----------------Add new data---------------------
                 def add_emp():
@@ -767,14 +723,14 @@ def main_window():
                                 place += 1
 
                             # showinfo messagebox
-                            messagebox.showinfo("Addresses", "Inserted Successfully")
+                            messagebox.showinfo("Addresses", "Inserted Successfully", parent=top)
 
                             conn.commit()
                             conn.close()
                             top.destroy()
 
                         else:
-                            messagebox.showwarning("Warning!", "Fill up Everything")
+                            messagebox.showwarning("Warning!", "Fill up Everything", parent=top)
 
                     # Define image as background in Add Employee window
                     bg = ImageTk.PhotoImage(file="images/add_emp.png")
@@ -911,83 +867,56 @@ def main_window():
                         conn.close()
 
                     else:
-                        messagebox.showwarning('Empty Field', 'Please enter in the search field')
+                        messagebox.showwarning('Empty Field', 'Please enter in the search field', parent=employee)
 
                 # Define image as background
                 bg1 = ImageTk.PhotoImage(file="images/emp_mngt.png")
-                bg_label = Label(root, image=bg1)
+                bg_label = Label(employee, image=bg1)
                 bg_label.place(x=0, y=0)
-
-                # Create clock for the current time
-                def clock():
-                    hour = time.strftime("%I")
-                    minute = time.strftime("%M")
-                    second = time.strftime("%S")
-                    disp_time.config(text=hour + ":" + minute + ":" + second)
-                    disp_time.after(1000, clock)
-
-                def update():
-                    disp_time.config(1000, clock)
-
-                disp_time = Label(root, text="", font=("Arial", 20), bg="white", fg="black")
-                disp_time.place(x=1031, y=45)
-
-                clock()
 
                 # Create Search box
                 entry_font = ('Poppins', 12)
-                searchbox = Entry(root, borderwidth=0, font=entry_font)
+                searchbox = Entry(employee, borderwidth=0, font=entry_font)
                 searchbox.place(x=93, y=160)
 
 
                 def exitt3():
-                    root.destroy()
-                    root1.destroy()
-                    global entry1, entry2
-                    entry1.delete(0, END)
-                    entry2.delete(0, END)
-                    entry1.focus()
-
+                    ans = messagebox.askyesno("Confirm Logout", "Are you sure you want to logout?", parent=employee)
+                    if ans:
+                        employee.destroy()
+                        root1.destroy()
+                        global entry1, entry2
+                        entry1.delete(0, END)
+                        entry2.delete(0, END)
+                        entry1.focus()
 
                 # Create buttons
-                search_bt = Button(root, text="Search", bg="#007884", activebackground="#007884",
-                                   fg="White", activeforeground="White",
-                                   borderwidth=0, cursor="hand2",
-                                   command=search)
+                search_bt = Button(employee, text="Search", bg="#007884", activebackground="#007884", fg="White", activeforeground="White", borderwidth=0, cursor="hand2", command=search)
                 search_bt.configure(font="-family {Poppins} -size 14")
                 search_bt.place(x=315, y=149)
 
-                add_bt = Button(root, text="Add Employee", bg="#007884", activebackground="#007884",
-                                fg="White", activeforeground="White", borderwidth=0, cursor="hand2",
-                                command=add_emp)
+                add_bt = Button(employee, text="Add Employee", bg="#007884", activebackground="#007884", fg="White", activeforeground="White", borderwidth=0, cursor="hand2", command=add_emp)
                 add_bt.configure(font="-family {Poppins} -size 14")
                 add_bt.place(x=156, y=280)
 
-                update_bt = Button(root, text="Update Employee", bg="#007884", activebackground="#007884",
-                                   fg="White", activeforeground="White", borderwidth=0, cursor="hand2",
-                                   command=emp_update)
+                update_bt = Button(employee, text="Update Employee", bg="#007884", activebackground="#007884", fg="White", activeforeground="White", borderwidth=0, cursor="hand2", command=emp_update)
                 update_bt.configure(font="-family {Poppins} -size 14")
                 update_bt.place(x=140, y=360)
 
-                delete_bt = Button(root, text="Delete Employee", bg="#007884", activebackground="#007884",
-                                   fg="White", activeforeground="White", borderwidth=0, cursor="hand2", command=delete)
+                delete_bt = Button(employee, text="Delete Employee", bg="#007884", activebackground="#007884", fg="White", activeforeground="White", borderwidth=0, cursor="hand2", command=delete)
                 delete_bt.configure(font="-family {Poppins} -size 14")
                 delete_bt.place(x=140, y=440)
 
-                exit_bt = Button(root, text="Exit", bg="#007884", activebackground="#007884",
-                                 fg="White", activeforeground="White", borderwidth=0, command=root.destroy, cursor="hand2")
+                exit_bt = Button(employee, text="Exit", bg="#007884", activebackground="#007884", fg="White", activeforeground="White", borderwidth=0, command=employee.destroy, cursor="hand2")
                 exit_bt.configure(font="-family {Poppins} -size 14")
                 exit_bt.place(x=200, y=540)
 
-                logout_bt = Button(root, text="Log Out", fg="White", activeforeground="White",
-                                   bg="#007884",
-                                   activebackground="#007884",
-                                   borderwidth=0, cursor="hand2", command=exitt3)
+                logout_bt = Button(employee, text="Log Out", fg="White", activeforeground="White", bg="#007884", activebackground="#007884", borderwidth=0, cursor="hand2", command=exitt3)
                 logout_bt.configure(font="-family {Poppins} -size 14")
                 logout_bt.place(x=1046, y=607)
 
                 # -------------Create Frame with scrollbar--------------
-                cover = LabelFrame(root, height=800, width=1000, bd=0)
+                cover = LabelFrame(employee, height=800, width=1000, bd=0)
                 cover.place(x=457, y=100)
 
                 mycanvas = Canvas(cover, height=495, width=663, bg="white")
@@ -1000,21 +929,20 @@ def main_window():
                 yscrollbar.pack(side=RIGHT, fill='y')
                 mycanvas.config(yscrollcommand=yscrollbar.set)
                 mycanvas.bind('<Configure>', lambda e: mycanvas.configure(scrollregion=mycanvas.bbox('all')))
-                # -------------------------------------------------------------
 
                 # Create labels
-                title = Label(root, text="Employee Management", fg="Black", bg="white", font=('Helvetica', 20, 'bold'))
+                title = Label(employee, text="Employee Management", fg="Black", bg="white", font=('Helvetica', 20, 'bold'))
                 title.place(x=450, y=40)
 
-                menu_label = Label(root, text="Menu", bg="white")
+                menu_label = Label(employee, text="Menu", bg="white")
                 menu_label.configure(font="-family {Poppins} -size 14")
                 menu_label.place(x=135, y=85)
 
-                id_label = Label(root, text="Employee ID", bg="white")
+                id_label = Label(employee, text="Employee ID", bg="white")
                 id_label.configure(font="-family {Poppins} -size 14")
                 id_label.place(x=90, y=128)
 
-                options_label = Label(root, text="Employee Options", bg="white")
+                options_label = Label(employee, text="Employee Options", bg="white")
                 options_label.configure(font="-family {Poppins} -size 14")
                 options_label.place(x=90, y=220)
 
@@ -1048,8 +976,7 @@ def main_window():
                 # close connection
                 conn.close()
 
-                root.mainloop()
-
+                employee.mainloop()
 
             # ------------------------------------- Invoices ----------------------------------------------------------
             def invoiceee():
@@ -1068,24 +995,16 @@ def main_window():
                     for widgets in myFrame.winfo_children():
                         widgets.destroy()
 
-                    label1 = Label(myFrame, text="Bill Number", bg="white", font=("Microsoft Sans Serif", 13, "bold"),
-                                   width=13,
-                                   fg="#0D1C30")
+                    label1 = Label(myFrame, text="Bill Number", bg="white", font=("Microsoft Sans Serif", 13, "bold"), width=13, fg="#0D1C30")
                     label1.grid(row=1, column=0)
 
-                    label2 = Label(myFrame, text="Customer Name", bg="white", font=("Microsoft Sans Serif", 13, "bold"),
-                                   width=20,
-                                   fg="#0D1C30")
+                    label2 = Label(myFrame, text="Customer Name", bg="white", font=("Microsoft Sans Serif", 13, "bold"), width=20, fg="#0D1C30")
                     label2.grid(row=1, column=1)
 
-                    label3 = Label(myFrame, text="Contact Number", bg="white",
-                                   font=("Microsoft Sans Serif", 13, "bold"), width=20,
-                                   fg="#0D1C30")
+                    label3 = Label(myFrame, text="Contact Number", bg="white", font=("Microsoft Sans Serif", 13, "bold"), width=20, fg="#0D1C30")
                     label3.grid(row=1, column=2)
 
-                    label4 = Label(myFrame, text="Date", bg="white", font=("Microsoft Sans Serif", 13, "bold"),
-                                   width=10,
-                                   fg="#0D1C30")
+                    label4 = Label(myFrame, text="Date", bg="white", font=("Microsoft Sans Serif", 13, "bold"), width=10, fg="#0D1C30")
                     label4.grid(row=1, column=3)
 
                     if billNumber.get() != '':
@@ -1115,22 +1034,11 @@ def main_window():
                                     row=roww, column=3)
 
                             if record[2] > 0:
-                                Label(myFrame, text=record[2], bg="white", font=("Microsoft Sans Serif", 11),
-                                      width=13).grid(
-                                    row=rowww,
-                                    column=0)
-                                Label(myFrame, text=record[0], bg="white", font=("Microsoft Sans Serif", 11),
-                                      width=13).grid(
-                                    row=rowww,
-                                    column=1)
-                                Label(myFrame, text=record[1], bg="white", font=("Microsoft Sans Serif", 11),
-                                      width=13).grid(
-                                    row=rowww,
-                                    column=2)
-                                Label(myFrame, text=record[3], bg="white", font=("Microsoft Sans Serif", 11),
-                                      width=13).grid(
-                                    row=rowww,
-                                    column=3)
+                                Label(myFrame, text=record[2], bg="white", font=("Microsoft Sans Serif", 11), width=13).grid(row=rowww, column=0)
+                                Label(myFrame, text=record[0], bg="white", font=("Microsoft Sans Serif", 11), width=13).grid(row=rowww, column=1)
+                                Label(myFrame, text=record[1], bg="white", font=("Microsoft Sans Serif", 11), width=13).grid(row=rowww, column=2)
+                                Label(myFrame, text=record[3], bg="white", font=("Microsoft Sans Serif", 11), width=13).grid(row=rowww, column=3)
+
                                 rowww += 1
 
                             myFrame.config(bg="white")
@@ -1191,12 +1099,10 @@ def main_window():
                         wrapper2.place(x=35, y=405)
 
                         # Placing bill labels
-                        bill_label_1 = Label(new, text="Product Name", bg="white",
-                                             font=("Microsoft Sans Serif", 13, "bold"))
+                        bill_label_1 = Label(new, text="Product Name", bg="white", font=("Microsoft Sans Serif", 13, "bold"))
                         bill_label_1.place(x=50, y=136)
 
-                        bill_label_2 = Label(new, text="Quantity", bg="white",
-                                             font=("Microsoft Sans Serif", 13, "bold"))
+                        bill_label_2 = Label(new, text="Quantity", bg="white", font=("Microsoft Sans Serif", 13, "bold"))
                         bill_label_2.place(x=290, y=136)
 
                         bill_label_3 = Label(new, text="Price", bg="white", font=("Microsoft Sans Serif", 13, "bold"))
@@ -1205,8 +1111,7 @@ def main_window():
                         bill_label_4 = Label(new, text="Customer Name :", bg="white", font=("Microsoft Sans Serif", 13))
                         bill_label_4.place(x=35, y=80)
 
-                        bill_label_5 = Label(new, text="Contact Number :", bg="white",
-                                             font=("Microsoft Sans Serif", 13))
+                        bill_label_5 = Label(new, text="Contact Number :", bg="white", font=("Microsoft Sans Serif", 13))
                         bill_label_5.place(x=35, y=105)
 
                         bill_label_6 = Label(new, text="Date :", bg="white", font=("Microsoft Sans Serif", 13))
@@ -1286,13 +1191,15 @@ def main_window():
                     conn.close()
 
                 def exitt1():
-                    root.destroy()
-                    root1.destroy()
+                    ans = messagebox.askyesno("Confirm Logout", "Are you sure you want to logout?", parent=root)
+                    if ans:
+                        root.destroy()
+                        root1.destroy()
 
-                    global entry1, entry2
-                    entry1.delete(0, END)
-                    entry2.delete(0, END)
-                    entry1.focus()
+                        global entry1, entry2
+                        entry1.delete(0, END)
+                        entry2.delete(0, END)
+                        entry1.focus()
 
 
                 # Creating and placing buttons
@@ -1332,23 +1239,16 @@ def main_window():
                 wrapper1.place(x=420, y=107)
 
                 # Labels for showing bill details
-                label1 = Label(myFrame, text="Bill Number", bg="white", font=("Microsoft Sans Serif", 13, "bold"),
-                               width=13,
-                               fg="#0D1C30")
+                label1 = Label(myFrame, text="Bill Number", bg="white", font=("Microsoft Sans Serif", 13, "bold"), width=13, fg="#0D1C30")
                 label1.grid(row=0, column=0)
 
-                label2 = Label(myFrame, text="Customer Name", bg="white", font=("Microsoft Sans Serif", 13, "bold"),
-                               width=20,
-                               fg="#0D1C30")
+                label2 = Label(myFrame, text="Customer Name", bg="white", font=("Microsoft Sans Serif", 13, "bold"), width=20, fg="#0D1C30")
                 label2.grid(row=0, column=1)
 
-                label3 = Label(myFrame, text="Contact Number", bg="white", font=("Microsoft Sans Serif", 13, "bold"),
-                               width=20,
-                               fg="#0D1C30")
+                label3 = Label(myFrame, text="Contact Number", bg="white", font=("Microsoft Sans Serif", 13, "bold"), width=20, fg="#0D1C30")
                 label3.grid(row=0, column=2)
 
-                label4 = Label(myFrame, text="Date", bg="white", font=("Microsoft Sans Serif", 13, "bold"), width=10,
-                               fg="#0D1C30")
+                label4 = Label(myFrame, text="Date", bg="white", font=("Microsoft Sans Serif", 13, "bold"), width=10, fg="#0D1C30")
                 label4.grid(row=0, column=3)
 
                 # Showing all the bill created in listed view
@@ -1364,15 +1264,10 @@ def main_window():
                         lab1 = Label(myFrame, text=record[2], bg="white", font=("Microsoft Sans Serif", 11), width=13)
                         lab1.grid(row=roww, column=0)
 
-                        Label(myFrame, text=record[0], bg="white", font=("Microsoft Sans Serif", 11), width=13).grid(
-                            row=roww,
-                            column=1)
-                        Label(myFrame, text=record[1], bg="white", font=("Microsoft Sans Serif", 11), width=13).grid(
-                            row=roww,
-                            column=2)
-                        Label(myFrame, text=record[3], bg="white", font=("Microsoft Sans Serif", 11), width=13).grid(
-                            row=roww,
-                            column=3)
+                        Label(myFrame, text=record[0], bg="white", font=("Microsoft Sans Serif", 11), width=13).grid(row=roww, column=1)
+                        Label(myFrame, text=record[1], bg="white", font=("Microsoft Sans Serif", 11), width=13).grid(row=roww, column=2)
+                        Label(myFrame, text=record[3], bg="white", font=("Microsoft Sans Serif", 11), width=13).grid(row=roww, column=3)
+
                         roww += 1
 
                     myFrame.config(bg="white")
@@ -1388,20 +1283,16 @@ def main_window():
                 mainloop()
 
             def exxit():
-                root1.destroy()
-                global entry1, entry2
-                entry1.delete(0, END)
-                entry2.delete(0, END)
-                entry1.focus()
-
-
-
-
+                ans = messagebox.askyesno("Confirm Logout", "Are you sure you want to logout?", parent=root1)
+                if ans:
+                    root1.destroy()
+                    global entry1, entry2
+                    entry1.delete(0, END)
+                    entry2.delete(0, END)
+                    entry1.focus()
 
             imgeee = ImageTk.PhotoImage(Image.open('images/dashboard.png'))
             labloooo = Label(root1, image=imgeee).place(x=0, y=0)
-
-
 
             btn1 = Button(root1, text='Inventory', width=8, bg='#007884', fg='white', bd=0, font=("Poppins", 15),
                           activebackground='#007884', cursor="hand2", command=inventorryy).place(x=450, y=280)
@@ -1415,6 +1306,7 @@ def main_window():
 
 
             root1.mainloop()
+
         else:
             conn = sqlite3.connect('database_employee.db')
 
@@ -1426,6 +1318,7 @@ def main_window():
             In = False
 
             for record in records:
+                global window
                 if record[0] == entry1.get() and record[5] == entry2.get():
                     In = True
                     window = Toplevel()
@@ -1524,9 +1417,9 @@ def main_window():
                             records = c.fetchall()
 
                             # Looping through records and appending all cost price in empty list
-                            cp_value = []
+                            sp_value = []
                             for record in records[:]:
-                                cp_value.append(record[8])
+                                sp_value.append(record[7])
 
                             # Looping through records and appending all products in empty list
                             product_value = []
@@ -1547,11 +1440,11 @@ def main_window():
 
                                 index_of_product = product_value.index(product.get())
                                 lab3 = Label(myFrame,
-                                             text=int(value[1][index_increment]) * int(cp_value[index_of_product]),
+                                             text=int(value[1][index_increment]) * int(sp_value[index_of_product]),
                                              width=6, bg="white")
                                 lab3.grid(row=roww, column=3)
 
-                                bill_list[0][2].append(int(value[1][index_increment]) * int(cp_value[index_of_product]))
+                                bill_list[0][2].append(int(value[1][index_increment]) * int(sp_value[index_of_product]))
 
                                 index_increment += 1
                                 roww += 1
@@ -1579,9 +1472,9 @@ def main_window():
                         c.execute("SELECT *, oid FROM second")
                         records = c.fetchall()
 
-                        cp_value = []
+                        sp_value = []
                         for record in records[:]:
-                            cp_value.append(record[8])
+                            sp_value.append(record[7])
 
                         product_value = []
                         for record in records:
@@ -1598,7 +1491,7 @@ def main_window():
                         # Removing selected product's data from the list
                         bill_list[0][0].remove(remove_product)
                         index_of_product = product_value.index(product.get())
-                        bill_list[0][2].remove(remove_quantity * int(cp_value[index_of_product]))
+                        bill_list[0][2].remove(remove_quantity * int(sp_value[index_of_product]))
                         bill_list[0][1].remove(remove_quantity)
 
                         product_list = bill_list[0][0]
@@ -1615,8 +1508,7 @@ def main_window():
 
                             index_of_product = product_value.index(product_list[a])
 
-                            labb3 = Label(myFrame, text=int(quantity_list[index_increment_copy]) * int(
-                                cp_value[index_of_product]), width=6, bg="white")
+                            labb3 = Label(myFrame, text=int(quantity_list[index_increment_copy]) * int(sp_value[index_of_product]), width=6, bg="white")
                             labb3.grid(row=rowww, column=3)
 
                             i += 1
@@ -1640,9 +1532,9 @@ def main_window():
 
                         sum = 0
 
-                        cp_value = []
+                        sp_value = []
                         for record in records[:]:
-                            cp_value.append(record[8])
+                            sp_value.append(record[7])
 
                         product_value = []
                         for record in records:
@@ -1656,7 +1548,7 @@ def main_window():
                             product = bill_list[0][0][i]
 
                             index_of_product = product_value.index(product)
-                            sum += int(quantity_list[i]) * int(cp_value[index_of_product])
+                            sum += int(quantity_list[i]) * int(sp_value[index_of_product])
                             i += 1
 
                         total_label = Label(myFrame2, text="Total", bg="white", font=("Poppins", 13), width=15)
@@ -1680,7 +1572,7 @@ def main_window():
 
                         # Displaying messagebox if below conditions occur
                         if customerName.get() == '' or contactNum.get() == '' or category.get() == '' or subCategory.get() == '' or product.get() == '' or quantityEntry.get() == '':
-                            messagebox.showerror("Incomplete Information!!", "Please fill up all the details!")
+                            messagebox.showerror("Incomplete Information!!", "Please fill up all the details!", parent=window)
 
                         else:
                             connect = sqlite3.connect('billDatabase.db')
@@ -1712,21 +1604,19 @@ def main_window():
                             records = c.fetchall()
 
                             # Displaying customer information on bill
-                            bill_label_1 = Label(window, text=customerName.get(), font=("Microsoft Sans Serif", 13),
-                                                 bg="white", fg="#0D1C30")
+                            bill_label_1 = Label(window, text=customerName.get(), font=("Microsoft Sans Serif", 13), bg="white", fg="#0D1C30")
                             bill_label_1.place(x=670, y=230)
-                            bill_label_2 = Label(window, text=contactNum.get(), font=("Microsoft Sans Serif", 13),
-                                                 bg="white", fg="#0D1C30")
-                            bill_label_2.place(x=670, y=255)
-                            bill_label_3 = Label(window, text=current_date, font=("Microsoft Sans Serif", 13),
-                                                 bg="white", fg="#0D1C30")
-                            bill_label_3.place(x=995, y=230)
-                            # bill_label_4 = Label(window, text=bill_number, font=("Microsoft Sans Serif", 13),
-                            #                      bg="white", fg="#0D1C30")
-                            # bill_label_4.place(x=995, y=255)
 
-                            messagebox.showinfo("Bill Generated Successfully!",
-                                                "Bill has been added to the database successfully.")
+                            bill_label_2 = Label(window, text=contactNum.get(), font=("Microsoft Sans Serif", 13), bg="white", fg="#0D1C30")
+                            bill_label_2.place(x=670, y=255)
+
+                            bill_label_3 = Label(window, text=current_date, font=("Microsoft Sans Serif", 13), bg="white", fg="#0D1C30")
+                            bill_label_3.place(x=995, y=230)
+
+                            bill_label_4 = Label(window, text=bill_number, font=("Microsoft Sans Serif", 13), bg="white", fg="#0D1C30")
+                            bill_label_4.place(x=995, y=255)
+
+                            messagebox.showinfo("Bill Generated Successfully!", "Bill has been added to the database successfully.", parent=window)
 
                             conn.commit()
                             conn.close()
@@ -1763,31 +1653,27 @@ def main_window():
                         c.execute("SELECT * FROM bill")
                         records = c.fetchall()
 
-                        # cp_value = []
-                        # for record in records[:]:
-                        #     cp_value.append(record[8])
-
                         selected_bill_number = int(billNum.get())
 
                         # Looping through records to display all the data of searched bill number
                         for record in records:
                             if selected_bill_number == record[2]:
-                                bill_label1 = Label(window, text=record[0], font=("Microsoft Sans Serif", 13),
-                                                    bg="white", fg="#0D1C30")
+                                bill_label1 = Label(window, text=record[0], font=("Microsoft Sans Serif", 13), bg="white", fg="#0D1C30")
                                 bill_label1.place(x=670, y=230)
-                                bill_label2 = Label(window, text=record[1], font=("Microsoft Sans Serif", 13),
-                                                    bg="white", fg="#0D1C30")
+
+                                bill_label2 = Label(window, text=record[1], font=("Microsoft Sans Serif", 13), bg="white", fg="#0D1C30")
                                 bill_label2.place(x=670, y=255)
-                                bill_label3 = Label(window, text=record[3], font=("Microsoft Sans Serif", 13),
-                                                    bg="white", fg="#0D1C30")
+
+                                bill_label3 = Label(window, text=record[3], font=("Microsoft Sans Serif", 13), bg="white", fg="#0D1C30")
                                 bill_label3.place(x=995, y=230)
-                                bill_label4 = Label(window, text=record[2], font=("Microsoft Sans Serif", 13),
-                                                    bg="white", fg="#0D1C30")
+
+                                bill_label4 = Label(window, text=record[2], font=("Microsoft Sans Serif", 13), bg="white", fg="#0D1C30")
                                 bill_label4.place(x=995, y=255)
+
                                 total_label = Label(myFrame2, text="Total", bg="white", font=("Poppins", 13), width=15)
                                 total_label.grid(row=0, column=0)
-                                total_amount = Label(myFrame2, text=f"Rs. {record[6]}", bg="white",
-                                                     font=("Poppins", 13), width=75)
+
+                                total_amount = Label(myFrame2, text=f"Rs. {record[6]}", bg="white", font=("Poppins", 13), width=75)
                                 total_amount.grid(row=0, column=1)
 
                                 # Products
@@ -1812,9 +1698,7 @@ def main_window():
                                     lab2 = Label(myFrame, text=quantity, width=45, bg="white")
                                     lab2.grid(row=rooww, column=2)
 
-                                    lab3 = Label(myFrame,
-                                                 text=int(quantity) * int(products_and_cp[final_products[rooww]]),
-                                                 width=6, bg="white")
+                                    lab3 = Label(myFrame, text=int(quantity) * int(products_and_cp[final_products[rooww]]), width=6, bg="white")
                                     lab3.grid(row=rooww, column=3)
                                     rooww += 1
 
@@ -1824,9 +1708,6 @@ def main_window():
                         category.delete(0, END)
                         subCategory.delete(0, END)
                         product.delete(0, END)
-
-                        clear_in_stock = Label(window, text=f"                             ", bg="white", fg="brown", font=("Poppins", 13, "bold"), padx=16)
-                        clear_in_stock.place(x=52, y=410)
 
                     # Function that clears 'Customer Details' frame and bill
                     def clear_bill():
@@ -1851,16 +1732,17 @@ def main_window():
 
 
                     def exittt():
-                        window.destroy()
-                        global entry1, entry2
-                        entry1.delete(0, END)
-                        entry2.delete(0, END)
-                        entry1.focus()
+                        ans = messagebox.askyesno("Confirm Logout", "Are you sure you want to logout?", parent=window)
+                        if ans:
+                            window.destroy()
+                            global entry1, entry2
+                            entry1.delete(0, END)
+                            entry2.delete(0, END)
+                            entry1.focus()
 
                     # Creating and placing buttons
                     btn1 = Button(window, text="Search", font=("Poppins", 13, "bold"), border=0, bg="#007884",
-                                  fg="white", activebackground="#007884", activeforeground="#f1f1e6", cursor="hand2",
-                                  comman=search)
+                                  fg="white", activebackground="#007884", activeforeground="#f1f1e6", cursor="hand2", command=search)
                     btn1.place(x=328, y=86)
 
                     btn2 = Button(window, text="LOGOUT", font=("Poppins", 12, "bold"), border=0, bg="#007884",
@@ -1868,33 +1750,27 @@ def main_window():
                     btn2.place(x=1067, y=604)
 
                     btn3 = Button(window, text="Remove", font=("Poppins", 13, "bold"), border=0, bg="#007884",
-                                  fg="white", activebackground="#007884", activeforeground="#f1f1e6", cursor="hand2",
-                                  command=remove)
+                                  fg="white", activebackground="#007884", activeforeground="#f1f1e6", cursor="hand2", command=remove)
                     btn3.place(x=235, y=448)
 
                     btn4 = Button(window, text="Clear", font=("Poppins", 13, "bold"), border=0, bg="#007884",
-                                  fg="white", activebackground="#007884", activeforeground="#f1f1e6", cursor="hand2",
-                                  command=clear)
+                                  fg="white", activebackground="#007884", activeforeground="#f1f1e6", cursor="hand2", command=clear)
                     btn4.place(x=373, y=448)
 
                     btn5 = Button(window, text="Add", font=("Poppins", 13, "bold"), border=0, bg="#007884", fg="white",
-                                  activebackground="#007884", activeforeground="#f1f1e6", cursor="hand2",
-                                  command=addToCart)
+                                  activebackground="#007884", activeforeground="#f1f1e6", cursor="hand2", command=addToCart)
                     btn5.place(x=120, y=448)
 
                     btn6 = Button(window, text="Total", font=("Poppins", 13, "bold"), border=0, bg="#007884",
-                                  fg="white", activebackground="#007884", activeforeground="#f1f1e6", cursor="hand2",
-                                  command=total)
+                                  fg="white", activebackground="#007884", activeforeground="#f1f1e6", cursor="hand2", command=total)
                     btn6.place(x=85, y=538)
 
                     btn7 = Button(window, text="Generate", font=("Poppins", 12, "bold"), border=0, bg="#007884",
-                                  fg="white", activebackground="#007884", activeforeground="#f1f1e6", cursor="hand2",
-                                  command=generate)
+                                  fg="white", activebackground="#007884", activeforeground="#f1f1e6", cursor="hand2", command=generate)
                     btn7.place(x=176, y=538)
 
                     btn8 = Button(window, text="Clear", font=("Poppins", 13, "bold"), border=0, bg="#007884",
-                                  fg="white", activebackground="#007884", activeforeground="#f1f1e6", cursor="hand2",
-                                  command=clear_bill)
+                                  fg="white", activebackground="#007884", activeforeground="#f1f1e6", cursor="hand2", command=clear_bill)
                     btn8.place(x=302, y=538)
 
                     btn9 = Button(window, text="Exit", font=("Poppins", 13, "bold"), border=0, bg="#007884", fg="white",
@@ -1902,8 +1778,7 @@ def main_window():
                     btn9.place(x=416, y=538)
 
                     # Creating and placing labels
-                    label1 = Label(window, text="Customer Details", bg="white", fg="brown",
-                                   font=("Poppins", 16, "bold"))
+                    label1 = Label(window, text="Customer Details", bg="white", fg="brown", font=("Poppins", 16, "bold"))
                     label1.place(x=520, y=53)
 
                     label2 = Label(window, text="Products", bg="white", fg="brown", font=("Poppins", 16, "bold"))
@@ -2031,7 +1906,7 @@ def main_window():
     Frame(root, width=278, height=2, bg='#141414').place(x=520, y=393)
     Frame(root, width=278, height=2, bg='#141414').place(x=520, y=320)
 
-    button_log = Button(root, text="Login", width=28, border=0, fg="white", bg="#051C36", activebackground="#051C36", activeforeground="white", cursor="hand2", command=hi)
+    button_log = Button(root, text="Login", width=28, border=0, fg="white", bg="#051C36", activebackground="#051C36", activeforeground="white", cursor="hand2", command=login_window)
     button_log.configure(font="-family {Poppins} -size 14")
     button_log.place(x=490, y=511, height=49)
 
