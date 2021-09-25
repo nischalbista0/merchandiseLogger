@@ -19,7 +19,6 @@ splash_label.pack()
 
 def main_window():
     global fg
-
     splash.destroy()
     root = Tk()
     root.title("Login")
@@ -82,13 +81,13 @@ def main_window():
                         records = c.fetchall()
 
                         for record in records:
-                            Label(myframe, text=Ent1.get(), bg='blue', width=10).grid(row=1, column=0)
-                            Label(myframe, text=record[0], bg='blue', width=30).grid(row=1, column=1)
-                            Label(myframe, text=record[1], bg='blue', width=13).grid(row=1, column=2)
-                            Label(myframe, text=record[2], bg='blue', width=10).grid(row=1, column=3)
-                            Label(myframe, text=record[3], bg='blue', width=10).grid(row=1, column=4)
-                            Label(myframe, text=record[8], bg='blue', width=10).grid(row=1, column=5)
-                            Label(myframe, text=record[9], bg='blue', width=10).grid(row=1, column=6)
+                            Label(myframe, text=Ent1.get(), bg='#16EEE9', width=10).grid(row=1, column=0)
+                            Label(myframe, text=record[0], bg='#16EEE9', width=30).grid(row=1, column=1)
+                            Label(myframe, text=record[1], bg='#16EEE9', width=13).grid(row=1, column=2)
+                            Label(myframe, text=record[2], bg='#16EEE9', width=10).grid(row=1, column=3)
+                            Label(myframe, text=record[3], bg='#16EEE9', width=10).grid(row=1, column=4)
+                            Label(myframe, text=record[8], bg='#16EEE9', width=10).grid(row=1, column=5)
+                            Label(myframe, text=record[9], bg='#16EEE9', width=10).grid(row=1, column=6)
 
                         conn.commit()
 
@@ -563,7 +562,7 @@ def main_window():
                                 place += 1
 
                             # showinfo messagebox
-                            messagebox.showinfo("Addresses", "Updated Successfully", parent=editor)
+                            messagebox.showinfo("Addresses", "Updated Successfully", parent=employee)
 
                             conn.commit()
                             conn.close()
@@ -732,11 +731,10 @@ def main_window():
                         else:
                             messagebox.showwarning("Warning!", "Fill up Everything", parent=top)
 
-                    # Define image as background in Add Employee window
+                    #Define image as background in Add Employee window
                     bg = ImageTk.PhotoImage(file="images/add_emp.png")
                     bg_label = Label(top, image=bg)
                     bg_label.place(x=0, y=0)
-
 
                     # Create labels
                     title = Label(top, text="Add Employee", fg="Black", bg="White", font=('Helvetica', 20, 'bold'))
@@ -1225,6 +1223,11 @@ def main_window():
                 myFrame = Frame(myCanvas)
                 myCanvas.create_window((0, 0), window=myFrame, anchor='nw')
                 wrapper1.place(x=420, y=107)
+
+                yscrollbar = ttk.Scrollbar(wrapper1, orient='vertical', command=myCanvas.yview)
+                yscrollbar.pack(side=RIGHT, fill='y')
+                myCanvas.config(yscrollcommand=yscrollbar.set)
+                myCanvas.bind('<Configure>', lambda e: myCanvas.configure(scrollregion=myCanvas.bbox('all')))
 
                 # Labels for showing bill details
                 label1 = Label(myFrame, text="Bill Number", bg="white", font=("Microsoft Sans Serif", 13, "bold"), width=13, fg="#0D1C30")
