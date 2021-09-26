@@ -33,6 +33,7 @@ def main_window():
         global index
 
         if entry1.get() == 'Admin' and entry2.get() == '123':
+            messagebox.showinfo('Correct', 'Login Successful')
             root1 = Toplevel()
 
             root1.geometry('1191x671+145+50')
